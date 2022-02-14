@@ -25,3 +25,23 @@ dataSources:
         - event: PlayerSigned(uint256,uint256[3])
           handler: handleSigned
       file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: FootiumLiteFriendlies
+    network: {{chainName}}
+    source:
+      address: '{{contracts.FootiumLiteFriendlies.address}}'
+      abi: FootiumLiteFriendliesContract
+      startBlock: {{contracts.FootiumLiteFriendlies.receipt.blockNumber}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - MessageEntry
+      abis:
+        - name: FootiumLiteFriendliesContract
+          file: ./abis/FootiumLiteFriendlies.json
+      eventHandlers:
+        - event: MatchRegistered(uint256,address,address,uint8)
+          handler: handleMatchRegistered
+      file: ./src/mapping.ts

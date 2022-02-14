@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "hardhat-deploy/solc_0.8/proxy/Proxied.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract FootiumLitePlayers is Proxied, ERC721 {
+contract FootiumLitePlayers is ERC721 {
     uint256 constant TRAITS_NUMBER = 3;
-    uint256 constant MAX_STAT = 256;
+    uint256 constant MAX_STAT = 101;
 
     event PlayerSigned(uint256 tokenId, uint256[TRAITS_NUMBER] traits);
 

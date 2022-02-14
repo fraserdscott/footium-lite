@@ -1,10 +1,15 @@
 <script lang="ts">
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
-  import {players} from '$lib/players/players';
+  import {friendlies} from '$lib/friendlies/friendlies';
   import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
   import {combine} from 'footium-lite-common';
+
+  let message = '';
+  async function setMessage(tokenId:number) {
+    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
+  }
 
   onMount(() => {
     console.log('mount players', {
@@ -20,13 +25,12 @@
 </symbol>
 <WalletAccess>
   <div class={`flex flex-wrap items-center -mx-2`}>
-      {#each [1,2,3,4,5] as item, index}
-            <NavButton
-              href={`/player/${index}`}
-              class="m-4 w-max-content"
-            >
-              Player {index}
-        </NavButton>
+      {#each [1,2,3,4] as item, index}
+       <a
+        href={`/player/${index}`}
+      >
+        Player {index}
+      </a>
       {/each}
     </div>
 </WalletAccess>

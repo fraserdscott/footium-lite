@@ -5,3 +5,9 @@ type Player @entity {
   perception: Int
   endurance: Int
 }
+
+type Match @entity {
+  id: ID!
+  accountA: Bytes!
+  accountB: Bytes!
+}

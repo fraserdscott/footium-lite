@@ -49,7 +49,7 @@ type TransactionRecord = {
 class PlayerStore implements QueryStore<Player> {
   private queryStore: QueryStore<Player>;
   private store: Readable<QueryState<Player>>;
-  constructor(endpoint: EndPoint, private transactions: TransactionStore, tokenId: string) {
+  constructor(endpoint: EndPoint, private transactions: TransactionStore, id: string) {
     this.queryStore = new HookedQueryStore(
       endpoint,
       `
@@ -63,7 +63,7 @@ class PlayerStore implements QueryStore<Player> {
       }
     }`,
       chainTempo,
-      { path: 'player', variables: { id: tokenId } },
+      { path: 'player', variables: { id } },
     );
     this.store = derived([this.queryStore, this.transactions], (values) => this.update(values)); // lambda ensure update is not bound and can be hot swapped on HMR
   }
