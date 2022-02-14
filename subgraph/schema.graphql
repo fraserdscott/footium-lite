@@ -1,5 +1,7 @@
-type MessageEntry @entity {
+type Player @entity {
   id: ID!
-  message: String!
-  timestamp: BigInt!
+  owner: Bytes!
+  strength: Int
+  perception: Int
+  endurance: Int
 }

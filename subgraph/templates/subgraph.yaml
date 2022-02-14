@@ -1,15 +1,15 @@
 specVersion: 0.0.3
-description: Jolly Roger
+description: Footium Lite
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: GreetingsRegistry
+    name: FootiumLitePlayers
     network: {{chainName}}
     source:
-      address: '{{contracts.GreetingsRegistry.address}}'
-      abi: GreetingsRegistryContract
-      startBlock: {{contracts.GreetingsRegistry.receipt.blockNumber}}
+      address: '{{contracts.FootiumLitePlayers.address}}'
+      abi: FootiumLitePlayersContract
+      startBlock: {{contracts.FootiumLitePlayers.receipt.blockNumber}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -17,9 +17,11 @@ dataSources:
       entities:
         - MessageEntry
       abis:
-        - name: GreetingsRegistryContract
-          file: ./abis/GreetingsRegistry.json
+        - name: FootiumLitePlayersContract
+          file: ./abis/FootiumLitePlayers.json
       eventHandlers:
-        - event: MessageChanged(indexed address,string)
-          handler: handleMessageChanged
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: PlayerSigned(uint256,uint256[3])
+          handler: handleSigned
       file: ./src/mapping.ts

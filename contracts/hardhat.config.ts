@@ -87,7 +87,7 @@ const config: HardhatUserConfig = {
     : undefined,
 
   tenderly: {
-    project: 'jolly-roger',
+    project: 'footium-lite',
     username: process.env.TENDERLY_USERNAME as string,
   },
 };

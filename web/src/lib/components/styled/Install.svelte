@@ -73,11 +73,11 @@
       <div class="p-4">
         <div class="flex items-start">
           <div class="flex-shrink-0 pt-0.5">
-            <img class="h-10 w-10 rounded-full" src={`${base}/maskable_icon_512x512.png`} alt="Jolly Roger" />
+            <img class="h-10 w-10 rounded-full" src={`${base}/maskable_icon_512x512.png`} alt="Footium Lite" />
           </div>
           <div class="ml-3 w-0 flex-1">
             <p class="text-sm font-medium dark:text-gray-100 text-black">
-              Do you want to install Jolly Roger on your home screen?
+              Do you want to install Footium Lite on your home screen?
             </p>
             <!-- <p class="mt-1 text-sm text-gray-500">
             Install it for later

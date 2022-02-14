@@ -2,13 +2,13 @@
 pragma solidity 0.8.9;
 
 import "./test.sol";
-import "../src/GreetingsRegistry/GreetingsRegistry.sol";
+import "../src/FootiumLitePlayers/FootiumLitePlayers.sol";
 
-contract GreetingsRegistryTest is DSTest {
-    GreetingsRegistry internal registry;
+contract FootiumLitePlayersTest is DSTest {
+    FootiumLitePlayers internal registry;
 
     function setUp() public {
-        registry = new GreetingsRegistry("prefix_");
+        registry = new FootiumLitePlayers("prefix_");
     }
 
     function test_message(string calldata message) public {

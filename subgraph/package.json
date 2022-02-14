@@ -1,6 +1,6 @@
 {
-  "name": "jolly-roger-subgraph",
-  "description": "Subgraph (thegraph.com) for Jolly Roger",
+  "name": "footium-lite-subgraph",
+  "description": "Subgraph (thegraph.com) for Footium Lite",
   "private": true,
   "version": "0.0.1",
   "devDependencies": {

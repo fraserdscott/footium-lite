@@ -1,12 +1,12 @@
-import {getUnnamedAccounts, ethers} from 'hardhat';
+import { getUnnamedAccounts, ethers } from 'hardhat';
 
 const messages = ['Hello', '你好', 'سلام', 'здравствуйте', 'Habari', 'Bonjour', 'नमस्ते'];
 
-async function waitFor<T>(p: Promise<{wait: () => Promise<T>}>): Promise<T> {
+async function waitFor<T>(p: Promise<{ wait: () => Promise<T> }>): Promise<T> {
   const tx = await p;
   try {
     await ethers.provider.send('evm_mine', []); // speed up on local network
-  } catch (e) {}
+  } catch (e) { }
   return tx.wait();
 }
 
@@ -15,8 +15,8 @@ async function main() {
   for (let i = 0; i < messages.length; i++) {
     const sender = others[i];
     if (sender) {
-      const greetingsRegistryContract = await ethers.getContract('GreetingsRegistry', sender);
-      const tx = await greetingsRegistryContract.setMessage(messages[i]);
+      const FootiumLitePlayersContract = await ethers.getContract('FootiumLitePlayers', sender);
+      const tx = await FootiumLitePlayersContract.setMessage(messages[i]);
       console.log(tx.hash);
       await tx.wait();
     }

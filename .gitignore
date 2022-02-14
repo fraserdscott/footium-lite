@@ -2,4 +2,6 @@
 !.env*.default
 .newsh.json
 node_modules
-jolly-roger.code-workspace
+footium-lite.code-workspace
+
+.DS_Store

@@ -1,12 +1,12 @@
-import {expect} from './chai-setup';
-import {ethers, deployments, getUnnamedAccounts} from 'hardhat';
-import {GreetingsRegistry} from '../typechain';
-import {setupUsers} from './utils';
+import { expect } from './chai-setup';
+import { ethers, deployments, getUnnamedAccounts } from 'hardhat';
+import { FootiumLitePlayers } from '../typechain';
+import { setupUsers } from './utils';
 
 const setup = deployments.createFixture(async () => {
-  await deployments.fixture('GreetingsRegistry');
+  await deployments.fixture('FootiumLitePlayers');
   const contracts = {
-    GreetingsRegistry: <GreetingsRegistry>await ethers.getContract('GreetingsRegistry'),
+    FootiumLitePlayers: <FootiumLitePlayers>await ethers.getContract('FootiumLitePlayers'),
   };
   const users = await setupUsers(await getUnnamedAccounts(), contracts);
   return {
@@ -14,12 +14,12 @@ const setup = deployments.createFixture(async () => {
     users,
   };
 });
-describe('GreetingsRegistry', function () {
+describe('FootiumLitePlayers', function () {
   it('setMessage works', async function () {
-    const {users, GreetingsRegistry} = await setup();
+    const { users, FootiumLitePlayers } = await setup();
     const testMessage = 'Hello World';
-    await expect(users[0].GreetingsRegistry.setMessage(testMessage))
-      .to.emit(GreetingsRegistry, 'MessageChanged')
+    await expect(users[0].FootiumLitePlayers.setMessage(testMessage))
+      .to.emit(FootiumLitePlayers, 'MessageChanged')
       .withArgs(users[0].address, testMessage);
   });
 });
