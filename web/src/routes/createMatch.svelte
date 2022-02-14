@@ -1,14 +1,12 @@
 <script lang="ts">
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
-  import {friendlies} from '$lib/friendlies/friendlies';
   import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
   import {combine} from 'footium-lite-common';
 
-  let message = '';
-  async function setMessage(tokenId:number) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
+  async function createMatch() {
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch("0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"));
   }
 
   onMount(() => {
@@ -25,13 +23,7 @@
 </symbol>
 <WalletAccess>
   <div class={`flex flex-wrap items-center -mx-2`}>
-      {#each [1,2,3,4] as item, index}
-       <a
-        href={`/player/${index}`}
-      >
-        Player {index}
-      </a>
-      {/each}
+      <button on:click={createMatch}>Create a match</button>
     </div>
 </WalletAccess>
 

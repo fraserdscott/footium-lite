@@ -1,7 +1,6 @@
 <script lang="ts">
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
-  import {players} from '$lib/players/players';
   import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
   import {combine} from 'footium-lite-common';

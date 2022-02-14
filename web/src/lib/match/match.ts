@@ -9,11 +9,11 @@ import { HookedQueryStore } from '$lib/utils/stores/graphql';
 import type { EndPoint } from '$lib/utils/graphql/endpoint';
 import { chainTempo } from '$lib/blockchain/chainTempo';
 
-type Messages = {
+type Match = {
   id: string;
-  owner: string;
-  pending: boolean;
-}[];
+  accountA: string;
+  accountB: string;
+};
 
 // TODO web3w needs to export the type
 type TransactionStatus = 'pending' | 'cancelled' | 'success' | 'failure' | 'mined';
@@ -43,48 +43,31 @@ type TransactionRecord = {
   events?: unknown[]; // TODO
 };
 
-class MessagesStore implements QueryStore<Messages> {
-  private queryStore: QueryStore<Messages>;
-  private store: Readable<QueryState<Messages>>;
-  constructor(endpoint: EndPoint, private transactions: TransactionStore) {
+class MatchStore implements QueryStore<Match> {
+  private queryStore: QueryStore<Match>;
+  private store: Readable<QueryState<Match>>;
+  constructor(endpoint: EndPoint, private transactions: TransactionStore, id: string) {
     this.queryStore = new HookedQueryStore(
       endpoint,
       `
-    query {
-      players(first: 10) {
+    query GetMatch($id: ID){
+      match(id: $id) {
         id
-        owner
+        accountA
+        accountB
       }
     }`,
       chainTempo,
-      { path: 'players' }
+      { path: 'match', variables: { id } },
     );
     this.store = derived([this.queryStore, this.transactions], (values) => this.update(values)); // lambda ensure update is not bound and can be hot swapped on HMR
   }
 
-  private update([$query, $transactions]: [QueryState<Messages>, TransactionRecord[]]): QueryState<Messages> {
+  private update([$query]: [QueryState<Match>, TransactionRecord[]]): QueryState<Match> {
     if (!$query.data) {
       return $query;
     } else {
-      let newData = $query.data.concat();
-      for (const tx of $transactions) {
-        if (!tx.finalized && tx.args) {
-          // based on args : so need to ensure args are available
-          if (tx.status != 'cancelled' && tx.status !== 'failure') {
-            const foundIndex = newData.findIndex((v) => v.id.toLowerCase() === tx.from.toLowerCase());
-            if (foundIndex >= 0) {
-              newData[foundIndex].owner = tx.args[0] as string;
-              newData[foundIndex].pending = tx.confirmations < 1;
-            } else {
-              newData.unshift({
-                id: tx.from.toLowerCase(),
-                owner: tx.args[0] as string,
-                pending: tx.confirmations < 1,
-              });
-            }
-          }
-        }
-      }
+      let newData = $query.data;
       return {
         step: $query.step,
         error: $query.error,
@@ -98,11 +81,11 @@ class MessagesStore implements QueryStore<Messages> {
   }
 
   subscribe(
-    run: Subscriber<QueryState<Messages>>,
-    invalidate?: Invalidator<QueryState<Messages>> | undefined
+    run: Subscriber<QueryState<Match>>,
+    invalidate?: Invalidator<QueryState<Match>> | undefined
   ): Unsubscriber {
     return this.store.subscribe(run, invalidate);
   }
 }
 
-export const messages = new MessagesStore(SUBGRAPH_ENDPOINT, transactions);
+export const getMatch = (tokenId: string) => new MatchStore(SUBGRAPH_ENDPOINT, transactions, tokenId);

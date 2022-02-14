@@ -26,10 +26,12 @@ export function handleSigned(event: PlayerSigned): void {
 }
 
 export function handleMatchRegistered(event: MatchRegistered): void {
-  let id = event.params.accountA.toHex();
-  let entity = Player.load(id);
+  let id = event.params.index.toHex();
+  let entity = Match.load(id);
   if (!entity) {
-    entity = new Player(id);
+    entity = new Match(id);
   }
+  entity.accountA = event.params.accountA;
+  entity.accountB = event.params.accountB;
   entity.save();
 }

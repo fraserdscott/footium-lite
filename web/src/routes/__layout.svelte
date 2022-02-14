@@ -39,7 +39,7 @@
   links={[
     {href: url(''), title: 'Home'},
     {href: url('players/'), title: 'Players'},
-    {href: url('friendlies/'), title: 'Friendlies'},
+    {href: url('matches/'), title: 'Matches'},
   ]}
 />
 

@@ -1,15 +1,11 @@
 <script lang="ts">
-  import {getPlayer} from '$lib/player/player';
+  import {getMatch} from '$lib/match/match';
   import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {onMount} from 'svelte';
   import {page} from '$app/stores';
 
-  const player = getPlayer(`0x${$page.params.id}`);
-  
-  async function mintPlayer(tokenId:number) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
-  }
+  const match = getMatch(`0x${$page.params.id}`);
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -19,46 +15,23 @@
 </symbol>
 <WalletAccess>
   <div class="py-8 px-4">
-    <b>Player {$page.params.id}</b>
-    {#if !$player.step}
-      <div>player not loaded</div>
-    {:else if $player.error}
-      <div>Error: {$player.error}</div>
-    {:else if $player.step === 'LOADING' || !$player.data}
+    <b>Match {$page.params.id}</b>
+    {#if !$match.step}
+      <div>match not loaded</div>
+    {:else if $match.error}
+      <div>Error: {$match.error}</div>
+    {:else if $match.step === 'LOADING' || !$match.data}
       <div>
-          <p>This player has not been minted yet.</p>
-          <button
-            on:click={()=>mintPlayer($page.params.id)}
-            class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
-                text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
-            type="button"
-          >
-            Mint
-          </button>   
+          <p>This match has not been created yet.</p>
         </div>
     {:else}
         <div class="px-2">
           <p>
-            Owner: {$player.data.owner}
+            AccountA: {$match.data.accountA}
           </p>
-          <table class="border">
-            <tr>
-              <th>Trait</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Strength</td>
-              <td>{$player.data.strength} / 100</td>
-            </tr>
-            <tr>
-              <td>Perception</td>
-              <td>{$player.data.perception} / 100</td>
-            </tr>
-            <tr>
-              <td>Endurance</td>
-              <td>{$player.data.endurance} / 100</td>
-            </tr>
-          </table>
+          <p>
+            AccountB: {$match.data.accountB}
+          </p>
         </div>
 
     {/if}
