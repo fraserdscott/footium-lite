@@ -2,6 +2,8 @@
 
 # Footium Lite
 
+**Foreword: Project and the rest of this README was forked from [Jolly Roger](https://github.com/wighawag/jolly-roger) by Ronan Sandford.**
+
 This is a template to build a decentralised applicaiton using ethereum, hardhat, svelte and thegraph
 
 to make an app out of it, execute the following
