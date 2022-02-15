@@ -10,4 +10,7 @@ type Match @entity {
   id: ID!
   accountA: Bytes!
   accountB: Bytes!
+  requestId: Bytes!
+  status: Int!
+  seed: Int
 }

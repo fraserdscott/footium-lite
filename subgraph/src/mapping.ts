@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
-import { MatchRegistered } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
+import { MatchRegistered, MatchSeed } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
 import { Player, Match } from '../generated/schema';
 
 export function handleTransfer(event: Transfer): void {
@@ -33,5 +33,18 @@ export function handleMatchRegistered(event: MatchRegistered): void {
   }
   entity.accountA = event.params.accountA;
   entity.accountB = event.params.accountB;
+  entity.status = 0;
+  entity.requestId = event.params.requestId;
+  entity.save();
+}
+
+export function handleMatchSeed(event: MatchSeed): void {
+  let id = event.params.index.toHex();
+  let entity = Match.load(id);
+  if (!entity) {
+    entity = new Match(id);
+  }
+  entity.seed = event.params.seed.toI32();
+  entity.status = 1;
   entity.save();
 }

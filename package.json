@@ -52,7 +52,8 @@
     "externals:geth": "node ./_scripts.js externals:geth",
     "dev": "node ./_scripts.js dev",
     "start": "node ./_scripts.js start",
-    "start:geth": "node ./_scripts.js start:geth"
+    "start:geth": "node ./_scripts.js start:geth",
+    "fulfill": "node ./_scripts fulfill"
   },
   "volta": {
     "node": "14.18.2"

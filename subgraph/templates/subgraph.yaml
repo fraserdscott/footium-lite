@@ -42,6 +42,8 @@ dataSources:
         - name: FootiumLiteFriendliesContract
           file: ./abis/FootiumLiteFriendlies.json
       eventHandlers:
-        - event: MatchRegistered(uint256,address,address,uint8)
+        - event: MatchRegistered(uint256,address,address,uint8,bytes32)
           handler: handleMatchRegistered
+        - event: MatchSeed(uint256,uint256)
+          handler: handleMatchSeed
       file: ./src/mapping.ts

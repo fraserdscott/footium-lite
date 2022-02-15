@@ -2,7 +2,7 @@
 'use strict';
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const {spawn, exec} = require('child_process');
+const { spawn, exec } = require('child_process');
 const fs = require('fs');
 
 const commandlineArgs = process.argv.slice(2);
@@ -81,7 +81,7 @@ function parseArgs(rawArgs, numFixedArgs, expectedOptions) {
       }
     }
   }
-  return {options, extra, fixedArgs};
+  return { options, extra, fixedArgs };
 }
 
 function execute(command) {
@@ -112,7 +112,7 @@ async function performAction(rawArgs) {
   const args = rawArgs.slice(1);
   // console.log({firstArg, args});
   if (firstArg == 'contracts:dev') {
-    const {fixedArgs, extra, options} = parseArgs(args, 0, {reset: 'boolean'});
+    const { fixedArgs, extra, options } = parseArgs(args, 0, { reset: 'boolean' });
     if (options.reset) {
       await execute('rimraf contracts/deployments/localhost && rimraf web/src/lib/contracts.json');
     }
@@ -122,7 +122,7 @@ async function performAction(rawArgs) {
   } else if (firstArg == 'contracts:node') {
     await execute(`dotenv -e .env -e contracts/.env -- npm --prefix contracts run dev:node -- --no-deploy`);
   } else if (firstArg == 'contracts:local:dev') {
-    const {fixedArgs, extra, options} = parseArgs(args, 0, {reset: 'boolean'});
+    const { fixedArgs, extra, options } = parseArgs(args, 0, { reset: 'boolean' });
     if (options.reset) {
       await execute('rimraf contracts/deployments/localhost && rimraf web/src/lib/contracts.json');
     }
@@ -133,19 +133,19 @@ async function performAction(rawArgs) {
       `dotenv -e .env -e contracts/.env -- npm --prefix contracts run local:dev -- --export ../web/src/lib/contracts.json`
     );
   } else if (firstArg === 'contracts:deploy') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     await execute(
       `${env}npm --prefix contracts run deploy ${network} -- --export ../web/src/lib/contracts.json ${extra.join(' ')}`
     );
   } else if (firstArg === 'contracts:fork:deploy') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     await execute(`${env}npm --prefix contracts run fork:deploy ${network} -- ${extra.join(' ')}`);
   } else if (firstArg === 'contracts:export') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0];
     if (!network) {
       console.error(`need to specify the network as first argument`);
@@ -154,7 +154,7 @@ async function performAction(rawArgs) {
     const env = getEnv(network);
     await execute(`${env}npm --prefix contracts run export ${network} -- ../web/src/lib/contracts.json`);
   } else if (firstArg === 'contracts:seed') {
-    const {fixedArgs, extra, options} = parseArgs(args, 1, {waitContracts: 'boolean'});
+    const { fixedArgs, extra, options } = parseArgs(args, 1, { waitContracts: 'boolean' });
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     if (options.waitContracts) {
@@ -163,7 +163,7 @@ async function performAction(rawArgs) {
     }
     await execute(`${env}npm --prefix contracts run execute ${network} scripts/seed.ts ${extra.join(' ')}`);
   } else if (firstArg === 'contracts:execute') {
-    const {fixedArgs, extra, options} = parseArgs(args, 1, {waitContracts: 'boolean'});
+    const { fixedArgs, extra, options } = parseArgs(args, 1, { waitContracts: 'boolean' });
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     if (options.waitContracts) {
@@ -172,12 +172,12 @@ async function performAction(rawArgs) {
     }
     await execute(`${env}npm --prefix contracts run execute ${network} ${extra.join(' ')}`);
   } else if (firstArg === 'contracts:fork:execute') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     await execute(`${env}npm --prefix contracts run fork:execute ${network} ${extra.join(' ')}`);
   } else if (firstArg === 'tenderly:push') {
-    const {fixedArgs} = parseArgs(args, 1, {});
+    const { fixedArgs } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     await execute(`${env}npm --prefix contracts run tenderly:push ${network}`);
@@ -186,7 +186,7 @@ async function performAction(rawArgs) {
     await execute(`wait-on web/src/lib/contracts.json`);
     await execute(`dotenv -- npm --prefix subgraph run dev ../contracts/deployments/localhost mainnet`);
   } else if (firstArg === 'subgraph:deploy') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     const env = getEnv(network);
     let deployCommand = 'deploy';
@@ -196,7 +196,7 @@ async function performAction(rawArgs) {
     await execute(`wait-on web/src/lib/contracts.json`);
     await execute(`${env}npm --prefix subgraph run ${deployCommand} ../contracts/deployments/${network}`);
   } else if (firstArg === 'web:dev') {
-    const {fixedArgs, options, extra} = parseArgs(args, 1, {skipContracts: 'boolean', waitContracts: 'boolean'});
+    const { fixedArgs, options, extra } = parseArgs(args, 1, { skipContracts: 'boolean', waitContracts: 'boolean' });
     const network = fixedArgs[0] || 'localhost';
     if (!options.skipContracts) {
       await performAction(['contracts:export', network]);
@@ -207,7 +207,7 @@ async function performAction(rawArgs) {
     const env = getEnv(network);
     await execute(`${env}npm --prefix web run dev -- ${extra.join(' ')}`);
   } else if (firstArg === 'web:build') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || (await getNetworkName()) || 'localhost';
     const env = getEnv(network);
     await execute(`${env}npm --prefix web run prepare`);
@@ -215,17 +215,17 @@ async function performAction(rawArgs) {
     await execute(`${env}npm run common:build`);
     await execute(`${env}npm --prefix web run build`);
   } else if (firstArg === 'web:serve') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0];
     const env = getEnv(network);
     await execute(`${env}npm --prefix web run serve`);
   } else if (firstArg === 'web:build:serve') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || 'localhost';
     await performAction(['web:build', network || 'localhost']);
     await performAction(['web:serve', network || 'localhost']);
   } else if (firstArg === 'web:deploy') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0];
     if (!network) {
       console.error(`need to specify the network as first argument`);
@@ -235,7 +235,7 @@ async function performAction(rawArgs) {
     await performAction(['web:build', network]);
     await execute(`${env}npm --prefix web run deploy`);
   } else if (firstArg === 'deploy') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || (await getNetworkName());
     if (!network) {
       console.error(`need to specify the network as first argument (or via env: NETWORK_NAME)`);
@@ -245,7 +245,7 @@ async function performAction(rawArgs) {
     await performAction(['subgraph:deploy', network]);
     await performAction(['web:deploy', network]);
   } else if (firstArg === 'deploy:noweb') {
-    const {fixedArgs, extra} = parseArgs(args, 1, {});
+    const { fixedArgs, extra } = parseArgs(args, 1, {});
     const network = fixedArgs[0] || (await getNetworkName());
     if (!network) {
       console.error(`need to specify the network as first argument (or via env: NETWORK_NAME)`);
@@ -262,7 +262,7 @@ async function performAction(rawArgs) {
     await execute(`docker-compose down -v --remove-orphans`);
     await execute(`docker-compose -f docker-compose.yml -f docker-compose.geth.yml up`);
   } else if (firstArg === 'dev') {
-    const {extra} = parseArgs(args, 0, {});
+    const { extra } = parseArgs(args, 0, {});
     execute(`newsh "npm run common:dev"`);
     execute(`newsh "npm run web:dev localhost -- --skipContracts --waitContracts ${extra.join(' ')}"`);
     execute(`newsh "npm run contracts:node"`);
@@ -271,7 +271,7 @@ async function performAction(rawArgs) {
     await performAction(['common:build']);
     await performAction(['contracts:seed', 'localhost', '--waitContracts']);
   } else if (firstArg === 'start') {
-    const {extra} = parseArgs(args, 0, {});
+    const { extra } = parseArgs(args, 0, {});
     await execute(`docker-compose down -v --remove-orphans`); // required else we run in race conditions
     execute(`newsh "npm run externals"`);
     execute(`newsh "npm run common:dev"`);
@@ -282,7 +282,7 @@ async function performAction(rawArgs) {
     await performAction(['common:build']);
     await performAction(['contracts:seed', 'localhost', '--waitContracts']);
   } else if (firstArg === 'start:geth') {
-    const {extra} = parseArgs(args, 0, {});
+    const { extra } = parseArgs(args, 0, {});
     await execute(`docker-compose down -v --remove-orphans`); // required else we run in race conditions
     execute(`newsh "npm run externals:geth"`);
     execute(`newsh "npm run common:dev"`);
@@ -291,6 +291,8 @@ async function performAction(rawArgs) {
     execute(`newsh "npm run subgraph:dev"`);
     await performAction(['common:build']);
     await performAction(['contracts:seed', 'localhost', '--waitContracts']);
+  } else if (firstArg === 'fulfill') {
+    await performAction([`contracts:execute`, 'localhost', 'contracts/scripts/fulfill.ts 0x918b7c2ceadbcf6deb278c796a1afbc21bdcff71605680178cf827388a3198ac',]);
   }
 }
 

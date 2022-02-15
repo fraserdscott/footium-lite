@@ -55,6 +55,9 @@ class MatchStore implements QueryStore<Match> {
         id
         accountA
         accountB
+        status
+        requestId
+        seed
       }
     }`,
       chainTempo,

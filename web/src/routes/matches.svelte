@@ -1,18 +1,15 @@
 <script lang="ts">
-  import {getMatch} from '$lib/match/match';
-  import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
+  import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
+  import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
-  import {page} from '$app/stores';
+  import {combine} from 'footium-lite-common';
 
-  const match = getMatch(`0x${$page.params.id}`);
-  const formatAddress = (address:string)=>`${address.slice(0,8)}...`
-
-  async function getWinner(seed:number) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
-  }
-
-  const wonA=true;
+  onMount(() => {
+    console.log('mount players', {
+      combine: combine(wallet.address || '0x0000000000000000000000000000000000000000', 'hi').toString(),
+    });
+  });
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -21,37 +18,22 @@
   />
 </symbol>
 <WalletAccess>
-  <div class="py-8 px-4">
-    <b>Match {$page.params.id}</b>
-    {#if !$match.step}
-      <div>match not loaded</div>
-    {:else if $match.error}
-      <div>Error: {$match.error}</div>
-    {:else if $match.step === 'LOADING' || !$match.data}
-      <div>
-          <p>This match has not been created yet.</p>
-        </div>
-    {:else}
-      <div class="px-2">
-        <h2>
-          <b>{formatAddress($match.data.accountA)}</b> VS <b>{formatAddress($match.data.accountB)}</b>
-        </h2>
-        {#if $match.data.status === 0}
-          <div>VRF not received</div>
-          <div>Request ID: {$match.data.requestId}</div>
-        {:else if $match.data.status === 1}
-          <div>VRF received</div>
-          <div>Request ID: {$match.data.requestId}</div>
-          <div>Seed: {$match.data.seed}</div>
-          <div>Winner: {wonA ? formatAddress($match.data.accountA):formatAddress($match.data.accountB)}</div>
-        {:else}
-          <div class="px-2">
-            Borked
-          </div>
-        {/if}
-      </div>
-    {/if}
-  </div>
+  <div class={`flex flex-wrap items-center -mx-2`}>
+      {#each [1,2,3,4,5] as item, index}
+          <NavButton
+            href={`/match/${index}`}
+            class="m-4 w-max-content"
+          >
+              Match {index}
+        </NavButton>
+      {/each}
+      <NavButton
+          href={"/createMatch"}
+          class="m-4 w-max-content"
+        >
+          Create a match
+      </NavButton>
+    </div>
 </WalletAccess>
 
 <style>

@@ -29,7 +29,8 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
     Match[] matches;
     mapping(bytes32 => uint256) private requestToMatch;
 
-    event MatchRegistered(uint256 index, address accountA, address accountB, MatchStatus status);
+    event MatchRegistered(uint256 index, address accountA, address accountB, MatchStatus status, bytes32 requestId);
+    event MatchSeed(uint256 index, uint256 seed);
 
     constructor(
         address vrfCoordinator,
@@ -59,12 +60,15 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
         game.seed = randomness;
         game.status = MatchStatus.STATUS_READY;
+
+        emit MatchSeed(requestToMatch[requestId], randomness);
     }
 
     /* External */
 
     function registerMatch(address accountB) external {
         uint256 index = matches.length;
+
         Match memory game = Match(
             0,
             msg.sender,
@@ -73,12 +77,12 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
             [type(uint256).max, type(uint256).max, type(uint256).max, type(uint256).max, type(uint256).max],
             [type(uint256).max, type(uint256).max, type(uint256).max, type(uint256).max, type(uint256).max]
         );
-
         matches.push(game);
+
         bytes32 requestId = requestRandomness(keyHash, fee);
         requestToMatch[requestId] = index;
 
-        emit MatchRegistered(index, game.accountA, game.accountB, game.status);
+        emit MatchRegistered(index, game.accountA, game.accountB, game.status, requestId);
     }
 
     /* Pure */
