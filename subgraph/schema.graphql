@@ -13,5 +13,5 @@ type Match @entity {
   formationA: [Int!]!
   formationB: [Int!]!
   randomNumber: Int
-  winner: Bytes
+  winStatus: Int
 }

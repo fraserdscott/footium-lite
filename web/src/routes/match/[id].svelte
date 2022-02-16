@@ -38,7 +38,7 @@
           <div>VRF received</div>
           <div>Request ID: {$match.data.requestId}</div>
           <div>Seed: {$match.data.randomNumber}</div>
-          <div>Winner: {formatAddress($match.data.winner)}</div>
+          <div>Winner: {$match.data.winStatus===0 ? formatAddress($match.data.accountA):$match.data.winStatus===0?formatAddress($match.data.accountB):"Draw"}</div>
         {:else}
           <div class="px-2">
             Borked

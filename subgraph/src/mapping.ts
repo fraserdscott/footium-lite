@@ -50,7 +50,7 @@ export function handleMatchSeed(event: MatchSeed): void {
   entity.status = 1;
 
   let contract = FootiumLiteFriendliesContract.bind(event.address)
-  entity.winner = contract.simulateMatch(event.params.seed, entity.formationA.map<BigInt>(a => BigInt.fromI32(a)), entity.formationB.map<BigInt>(a => BigInt.fromI32(a))) ? entity.accountA : entity.accountB;
+  entity.winStatus = contract.simulateMatch(event.params.seed, entity.formationA.map<BigInt>(a => BigInt.fromI32(a)), entity.formationB.map<BigInt>(a => BigInt.fromI32(a)));
 
   entity.save();
 }

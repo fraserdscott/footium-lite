@@ -15,6 +15,12 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         STATUS_READY
     }
 
+    enum SimStatus {
+        WIN_A,
+        WIN_B,
+        DRAW
+    }
+
     struct Match {
         uint256 seed;
         address accountA;
@@ -91,13 +97,37 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         emit MatchRegistered(index, game.accountA, game.accountB, requestId, game.formationA, game.formationB);
     }
 
-    /* Pure */
+    /* View */
+
+    function formationInvalid(uint256[] calldata formation) public pure returns (bool) {
+        bool[TEAM_SIZE] memory seen;
+        for (uint256 i = 0; i < TEAM_SIZE; i++) {
+            if (seen[formation[i]]) {
+                return true;
+            }
+            seen[i] = true;
+        }
+
+        return false;
+    }
 
     function simulateMatch(
         uint256 seed,
         uint256[] calldata formationA,
         uint256[] calldata formationB
-    ) public view returns (bool) {
+    ) public view returns (SimStatus) {
+        // Check that formations have been set
+        bool invalidA = formationInvalid(formationA);
+        bool invalidB = formationInvalid(formationB);
+        if (invalidA && invalidB) {
+            return SimStatus.DRAW;
+        } else if (invalidA) {
+            return SimStatus.WIN_B;
+        } else if (invalidB) {
+            return SimStatus.WIN_A;
+        }
+
+        // Run simulation
         uint256 attackA;
         uint256 attackB;
         for (uint256 i = 0; i < TEAM_SIZE; i++) {
@@ -109,6 +139,9 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
             }
         }
 
-        return seed % (attackA + attackB) < attackA;
+        if (seed % (attackA + attackB) < attackA) {
+            return SimStatus.WIN_A;
+        }
+        return SimStatus.WIN_B;
     }
 }

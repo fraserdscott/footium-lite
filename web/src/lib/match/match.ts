@@ -60,7 +60,7 @@ class MatchStore implements QueryStore<Match> {
         status
         requestId
         randomNumber
-        winner
+        winStatus
       }
     }`,
       chainTempo,
