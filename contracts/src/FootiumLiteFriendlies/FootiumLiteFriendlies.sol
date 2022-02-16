@@ -43,6 +43,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         uint256[TEAM_SIZE] formationB
     );
     event MatchSeed(uint256 index, uint256 seed);
+    event TacticsSet(uint256 index, bool setA, uint256[TEAM_SIZE] formation);
 
     constructor(
         address vrfCoordinator,
@@ -109,6 +110,8 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         } else {
             game.formationB = formation;
         }
+
+        emit TacticsSet(index, setA, formation);
     }
 
     /* View */

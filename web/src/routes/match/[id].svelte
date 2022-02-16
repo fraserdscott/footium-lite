@@ -7,6 +7,10 @@
 
   const match = getMatch(`0x${$page.params.id}`);
   const formatAddress = (address:string)=>`${address.slice(0,8)}...`
+
+  async function setTactics(index:number) {
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.setTactics(index, false, [0,1,2,3,4]));
+  }
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -30,6 +34,14 @@
         <h2>
           <b>{formatAddress($match.data.accountA)}</b> VS <b>{formatAddress($match.data.accountB)}</b>
           <p>{$match.data.formationA} VS {$match.data.formationB}</p>
+          <button
+            on:click={()=>setTactics($page.params.id)}
+            class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
+                text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
+            type="button"
+          >
+            Set tactics
+          </button>   
         </h2>
         {#if $match.data.status === 0}
           <div>VRF not received</div>

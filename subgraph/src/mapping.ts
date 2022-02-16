@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
-import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
+import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
 import { Player, Match } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
@@ -51,6 +51,22 @@ export function handleMatchSeed(event: MatchSeed): void {
 
   let contract = FootiumLiteFriendliesContract.bind(event.address)
   entity.winStatus = contract.simulateMatch(event.params.seed, entity.formationA.map<BigInt>(a => BigInt.fromI32(a)), entity.formationB.map<BigInt>(a => BigInt.fromI32(a)));
+
+  entity.save();
+}
+
+export function handleTacticsSet(event: TacticsSet): void {
+  let id = event.params.index.toHex();
+  let entity = Match.load(id);
+  if (!entity) {
+    entity = new Match(id);
+  }
+
+  if (event.params.setA) {
+    entity.formationA = event.params.formation.map<i32>(f => f.toI32());
+  } else {
+    entity.formationB = event.params.formation.map<i32>(f => f.toI32());
+  }
 
   entity.save();
 }
