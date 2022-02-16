@@ -26,13 +26,12 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         address accountA;
         address accountB;
         MatchStatus status;
-        uint256[TEAM_SIZE] formationA;
-        uint256[TEAM_SIZE] formationB;
     }
 
     FootiumLitePlayers players;
     Match[] matches;
     mapping(bytes32 => uint256) private requestToMatch;
+    mapping(address => uint256[TEAM_SIZE]) private formations;
 
     event MatchRegistered(
         uint256 index,
@@ -43,7 +42,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         uint256[TEAM_SIZE] formationB
     );
     event MatchSeed(uint256 index, uint256 seed);
-    event TacticsSet(uint256 index, bool setA, uint256[TEAM_SIZE] formation);
+    event TacticsSet(address owner, uint256[TEAM_SIZE] formation);
 
     constructor(
         address vrfCoordinator,
@@ -82,36 +81,26 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
     function registerMatch(address accountB) external {
         uint256 index = matches.length;
 
-        Match memory game = Match(
-            0,
-            msg.sender,
-            accountB,
-            MatchStatus.STATUS_VRF_PENDING,
-            [uint256(0), uint256(0), uint256(0), uint256(0), uint256(0)],
-            [uint256(0), uint256(0), uint256(0), uint256(0), uint256(0)]
-        );
+        Match memory game = Match(0, msg.sender, accountB, MatchStatus.STATUS_VRF_PENDING);
         matches.push(game);
 
         bytes32 requestId = requestRandomness(keyHash, fee);
         requestToMatch[requestId] = index;
 
-        emit MatchRegistered(index, game.accountA, game.accountB, requestId, game.formationA, game.formationB);
+        emit MatchRegistered(
+            index,
+            game.accountA,
+            game.accountB,
+            requestId,
+            formations[msg.sender],
+            formations[accountB]
+        );
     }
 
-    function setTactics(
-        uint256 index,
-        bool setA,
-        uint256[TEAM_SIZE] calldata formation
-    ) external {
-        Match storage game = matches[index];
+    function setTactics(uint256[TEAM_SIZE] calldata formation) external {
+        formations[msg.sender] = formation;
 
-        if (setA) {
-            game.formationA = formation;
-        } else {
-            game.formationB = formation;
-        }
-
-        emit TacticsSet(index, setA, formation);
+        emit TacticsSet(msg.sender, formation);
     }
 
     /* View */

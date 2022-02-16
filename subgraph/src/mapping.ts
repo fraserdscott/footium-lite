@@ -1,72 +1,86 @@
 /* eslint-disable prefer-const */
 import { Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
 import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
-import { Player, Match } from '../generated/schema';
+import { Player, Match, Owner } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
-export function handleTransfer(event: Transfer): void {
-  let id = event.params.tokenId.toHex();
-  let entity = Player.load(id);
-  if (!entity) {
-    entity = new Player(id);
+export function getOrCreatePlayer(
+  id: string
+): Player {
+  let player = Player.load(id);
+  if (!player) {
+    player = new Player(id);
   }
-  entity.owner = event.params.to;
-  entity.save();
+
+  return player;
+}
+
+export function getOrCreateOwner(
+  id: string
+): Owner {
+  let owner = Owner.load(id);
+  if (!owner) {
+    owner = new Owner(id);
+    owner.formation = [0, 0, 0, 0, 0];
+  }
+
+  return owner;
+}
+
+
+export function handleTransfer(event: Transfer): void {
+  const player = getOrCreatePlayer(event.params.tokenId.toHex());
+
+  player.owner = event.params.to;
+  player.save();
 }
 
 export function handleSigned(event: PlayerSigned): void {
-  let id = event.params.tokenId.toHex();
-  let entity = Player.load(id);
-  if (!entity) {
-    entity = new Player(id);
-  }
-  entity.traits = [event.params.traits[0].toI32(), event.params.traits[1].toI32(), event.params.traits[2].toI32()];
+  const player = getOrCreatePlayer(event.params.tokenId.toHex());
 
-  entity.save();
+  player.traits = [event.params.traits[0].toI32(), event.params.traits[1].toI32(), event.params.traits[2].toI32()];
+  player.save();
 }
 
 export function handleMatchRegistered(event: MatchRegistered): void {
   let id = event.params.index.toHex();
-  let entity = Match.load(id);
-  if (!entity) {
-    entity = new Match(id);
+  let match = Match.load(id);
+  if (!match) {
+    match = new Match(id);
   }
-  entity.accountA = event.params.accountA;
-  entity.accountB = event.params.accountB;
-  entity.formationA = event.params.formationA.map<i32>(f => f.toI32());
-  entity.formationB = event.params.formationB.map<i32>(f => f.toI32());
-  entity.status = 0;
-  entity.requestId = event.params.requestId;
-  entity.save();
+  let ownerA = getOrCreateOwner(event.params.accountA.toHexString());
+  let ownerB = getOrCreateOwner(event.params.accountB.toHexString());
+
+  match.accountA = ownerA.id;
+  match.accountB = ownerB.id;
+  match.status = 0;
+  match.requestId = event.params.requestId;
+  match.save();
+  ownerA.save();
+  ownerB.save();
 }
 
 export function handleMatchSeed(event: MatchSeed): void {
   let id = event.params.index.toHex();
-  let entity = Match.load(id);
-  if (!entity) {
-    entity = new Match(id);
+  let match = Match.load(id);
+  if (!match) {
+    match = new Match(id);
   }
-  entity.randomNumber = event.params.seed.toI32();
-  entity.status = 1;
+  let ownerA = getOrCreateOwner(match.accountA);
+  let ownerB = getOrCreateOwner(match.accountB);
+
+  match.randomNumber = event.params.seed.toI32();
+  match.status = 1;
 
   let contract = FootiumLiteFriendliesContract.bind(event.address)
-  entity.winStatus = contract.simulateMatch(event.params.seed, entity.formationA.map<BigInt>(a => BigInt.fromI32(a)), entity.formationB.map<BigInt>(a => BigInt.fromI32(a)));
+  match.winStatus = contract.simulateMatch(event.params.seed, ownerA.formation.map<BigInt>(f => BigInt.fromI32(f)), ownerB.formation.map<BigInt>(f => BigInt.fromI32(f)));
 
-  entity.save();
+  match.save();
 }
 
 export function handleTacticsSet(event: TacticsSet): void {
-  let id = event.params.index.toHex();
-  let entity = Match.load(id);
-  if (!entity) {
-    entity = new Match(id);
-  }
+  let owner = getOrCreateOwner(event.params.owner.toHex());
 
-  if (event.params.setA) {
-    entity.formationA = event.params.formation.map<i32>(f => f.toI32());
-  } else {
-    entity.formationB = event.params.formation.map<i32>(f => f.toI32());
-  }
-
-  entity.save();
+  owner.formation = event.params.formation.map<i32>(f => f.toI32());
+  owner.save();
 }

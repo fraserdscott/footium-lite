@@ -46,6 +46,6 @@ dataSources:
           handler: handleMatchRegistered
         - event: MatchSeed(uint256,uint256)
           handler: handleMatchSeed
-        - event: TacticsSet(uint256,bool,uint256[5])
+        - event: TacticsSet(address,uint256[5])
           handler: handleTacticsSet
       file: ./src/mapping.ts

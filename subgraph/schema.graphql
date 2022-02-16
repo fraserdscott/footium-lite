@@ -4,14 +4,18 @@ type Player @entity {
   traits: [Int!]
 }
 
+type Owner @entity {
+  id: ID!
+  formation: [Int!]!
+}
+
+
 type Match @entity {
   id: ID!
-  accountA: Bytes!
-  accountB: Bytes!
+  accountA: Owner!
+  accountB: Owner!
   requestId: Bytes!
   status: Int!
-  formationA: [Int!]!
-  formationB: [Int!]!
   randomNumber: Int
   winStatus: Int
 }
