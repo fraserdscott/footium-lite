@@ -33,7 +33,6 @@ export function handleMatchRegistered(event: MatchRegistered): void {
   }
   entity.accountA = event.params.accountA;
   entity.accountB = event.params.accountB;
-  // entity.formationA = [event.params.formationA[0].toI32(), event.params.formationA[1].toI32(), event.params.formationA[2].toI32(), event.params.formationA[3].toI32(), event.params.formationA[4].toI32()];
   entity.formationA = event.params.formationA.map<i32>(f => f.toI32());
   entity.formationB = event.params.formationB.map<i32>(f => f.toI32());
   entity.status = 0;
@@ -51,7 +50,7 @@ export function handleMatchSeed(event: MatchSeed): void {
   entity.status = 1;
 
   let contract = FootiumLiteFriendliesContract.bind(event.address)
-  entity.winner = contract.simulateMatch(event.params.seed) ? entity.accountA : entity.accountB;
+  entity.winner = contract.simulateMatch(event.params.seed, entity.formationA.map<BigInt>(a => BigInt.fromI32(a)), entity.formationB.map<BigInt>(a => BigInt.fromI32(a))) ? entity.accountA : entity.accountB;
 
   entity.save();
 }
