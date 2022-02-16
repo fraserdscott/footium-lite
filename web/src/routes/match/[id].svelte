@@ -41,7 +41,7 @@
           <div>Winner: {$match.data.winStatus===0 ? formatAddress($match.data.accountA):$match.data.winStatus===0?formatAddress($match.data.accountB):"Draw"}</div>
         {:else}
           <div class="px-2">
-            Borked
+            Fix me
           </div>
         {/if}
       </div>

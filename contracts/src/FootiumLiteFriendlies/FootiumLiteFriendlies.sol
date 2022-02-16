@@ -97,6 +97,20 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         emit MatchRegistered(index, game.accountA, game.accountB, requestId, game.formationA, game.formationB);
     }
 
+    function setTactics(
+        uint256 index,
+        bool setA,
+        uint256[TEAM_SIZE] calldata formation
+    ) external {
+        Match storage game = matches[index];
+
+        if (setA) {
+            game.formationA = formation;
+        } else {
+            game.formationB = formation;
+        }
+    }
+
     /* View */
 
     function formationInvalid(uint256[] calldata formation) public pure returns (bool) {
