@@ -4,6 +4,7 @@
   import {wallet, flow, chain} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
   import {combine} from 'footium-lite-common';
+  import {matches} from '$lib/matches/matches';
 
   onMount(() => {
     console.log('mount players', {
@@ -19,7 +20,14 @@
 </symbol>
 <WalletAccess>
   <div class={`flex flex-wrap items-center -mx-2`}>
-      {#each [1,2,3,4,5] as item, index}
+    {#if !$matches.step}
+      <div>Matches not loaded</div>
+    {:else if $matches.error}
+      <div>Error: {$matches.error}</div>
+    {:else if $matches.step === 'LOADING' || !$matches.data}
+      <div>Loading matches...</div>
+    {:else}
+      {#each $matches.data as message, index}
           <NavButton
             href={`/match/${index}`}
             class="m-4 w-max-content"
@@ -33,6 +41,7 @@
         >
           Create a match
       </NavButton>
+    {/if}
     </div>
 </WalletAccess>
 
