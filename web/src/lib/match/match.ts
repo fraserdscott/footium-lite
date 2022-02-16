@@ -53,10 +53,14 @@ class MatchStore implements QueryStore<Match> {
     query GetMatch($id: ID){
       match(id: $id) {
         id
-        accountA
-        accountB
-        formationA
-        formationB
+        accountA {
+          id
+          formation
+        }
+        accountB {
+          id
+          formation
+        }
         status
         requestId
         randomNumber
