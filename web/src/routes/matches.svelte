@@ -27,12 +27,12 @@
     {:else if $matches.step === 'LOADING' || !$matches.data}
       <div>Loading matches...</div>
     {:else}
-      {#each $matches.data as message, index}
+      {#each $matches.data as match, index}
           <NavButton
             href={`/match/${index}`}
             class="m-4 w-max-content"
           >
-              Match {index}
+              Match {index} | {match.status === 0 ? "Not finished" : "Finished"}
         </NavButton>
       {/each}
       <NavButton

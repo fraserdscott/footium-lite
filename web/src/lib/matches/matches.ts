@@ -53,6 +53,7 @@ class MatchesStore implements QueryStore<Matches> {
     query {
       matches(first: 10) {
         id
+        status
       }
     }`,
       chainTempo,
