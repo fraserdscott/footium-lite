@@ -20,9 +20,8 @@ export function handleSigned(event: PlayerSigned): void {
   if (!entity) {
     entity = new Player(id);
   }
-  entity.strength = event.params.traits[0].toI32();
-  entity.perception = event.params.traits[1].toI32();
-  entity.endurance = event.params.traits[2].toI32();
+  entity.traits = [event.params.traits[0].toI32(), event.params.traits[1].toI32(), event.params.traits[2].toI32()];
+
   entity.save();
 }
 

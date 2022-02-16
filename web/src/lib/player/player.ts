@@ -57,9 +57,7 @@ class PlayerStore implements QueryStore<Player> {
       player(id: $id) {
         id
         owner
-        strength
-        perception
-        endurance
+        traits
       }
     }`,
       chainTempo,

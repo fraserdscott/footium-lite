@@ -48,15 +48,15 @@
             </tr>
             <tr>
               <td>Strength</td>
-              <td>{$player.data.strength} / 100</td>
+              <td>{$player.data.traits[0]} / 100</td>
             </tr>
             <tr>
               <td>Perception</td>
-              <td>{$player.data.perception} / 100</td>
+              <td>{$player.data.traits[1]} / 100</td>
             </tr>
             <tr>
               <td>Endurance</td>
-              <td>{$player.data.endurance} / 100</td>
+              <td>{$player.data.traits[2]} / 100</td>
             </tr>
           </table>
         </div>

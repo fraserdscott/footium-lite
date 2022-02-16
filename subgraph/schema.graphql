@@ -1,9 +1,7 @@
 type Player @entity {
   id: ID!
   owner: Bytes!
-  strength: Int
-  perception: Int
-  endurance: Int
+  traits: [Int!]
 }
 
 type Match @entity {
