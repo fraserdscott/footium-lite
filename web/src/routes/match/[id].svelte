@@ -37,7 +37,7 @@
         {:else if $match.data.status === 1}
           <div>VRF received</div>
           <div>Request ID: {$match.data.requestId}</div>
-          <div>Seed: {$match.data.seed}</div>
+          <div>Seed: {$match.data.randomNumber}</div>
           <div>Winner: {formatAddress($match.data.winner)}</div>
         {:else}
           <div class="px-2">

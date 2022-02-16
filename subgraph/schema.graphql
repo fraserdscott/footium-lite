@@ -12,6 +12,6 @@ type Match @entity {
   status: Int!
   formationA: [Int!]!
   formationB: [Int!]!
-  seed: Int
+  randomNumber: Int
   winner: Bytes
 }

@@ -46,7 +46,7 @@ export function handleMatchSeed(event: MatchSeed): void {
   if (!entity) {
     entity = new Match(id);
   }
-  entity.seed = event.params.seed.toI32();
+  entity.randomNumber = event.params.seed.toI32();
   entity.status = 1;
 
   let contract = FootiumLiteFriendliesContract.bind(event.address)

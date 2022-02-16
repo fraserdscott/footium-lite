@@ -59,7 +59,7 @@ class MatchStore implements QueryStore<Match> {
         formationB
         status
         requestId
-        seed
+        randomNumber
         winner
       }
     }`,
