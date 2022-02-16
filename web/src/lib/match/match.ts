@@ -58,6 +58,7 @@ class MatchStore implements QueryStore<Match> {
         status
         requestId
         seed
+        winner
       }
     }`,
       chainTempo,

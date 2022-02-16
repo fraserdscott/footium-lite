@@ -7,12 +7,6 @@
 
   const match = getMatch(`0x${$page.params.id}`);
   const formatAddress = (address:string)=>`${address.slice(0,8)}...`
-
-  async function getWinner(seed:number) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
-  }
-
-  const wonA=true;
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -43,7 +37,7 @@
           <div>VRF received</div>
           <div>Request ID: {$match.data.requestId}</div>
           <div>Seed: {$match.data.seed}</div>
-          <div>Winner: {wonA ? formatAddress($match.data.accountA):formatAddress($match.data.accountB)}</div>
+          <div>Winner: {formatAddress($match.data.winner)}</div>
         {:else}
           <div class="px-2">
             Borked

@@ -292,7 +292,7 @@ async function performAction(rawArgs) {
     await performAction(['common:build']);
     await performAction(['contracts:seed', 'localhost', '--waitContracts']);
   } else if (firstArg === 'fulfill') {
-    await performAction([`contracts:execute`, 'localhost', 'contracts/scripts/fulfill.ts 0x918b7c2ceadbcf6deb278c796a1afbc21bdcff71605680178cf827388a3198ac',]);
+    await performAction([`contracts:execute`, 'localhost', 'contracts/scripts/fulfill.ts 0x45a56815416aaa81d255952d0f87982bb6b6ef4ecbb5b1d134850ddc4fdc2d1b',]);
   }
 }
 

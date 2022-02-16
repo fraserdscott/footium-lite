@@ -6,7 +6,7 @@
   import {combine} from 'footium-lite-common';
 
   async function createMatch() {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch("0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"));
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch("0xb19BC46C52A1352A071fe2389503B6FE1ABD50Ff"));
   }
 
   onMount(() => {

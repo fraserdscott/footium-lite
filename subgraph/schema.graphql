@@ -13,4 +13,5 @@ type Match @entity {
   requestId: Bytes!
   status: Int!
   seed: Int
+  winner: Bytes
 }

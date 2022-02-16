@@ -1,7 +1,8 @@
 /* eslint-disable prefer-const */
 import { Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
-import { MatchRegistered, MatchSeed } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
+import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
 import { Player, Match } from '../generated/schema';
+import { BigInt } from '@graphprotocol/graph-ts'
 
 export function handleTransfer(event: Transfer): void {
   let id = event.params.tokenId.toHex();
@@ -46,5 +47,9 @@ export function handleMatchSeed(event: MatchSeed): void {
   }
   entity.seed = event.params.seed.toI32();
   entity.status = 1;
+
+  let contract = FootiumLiteFriendliesContract.bind(event.address)
+  entity.winner = contract.simulateMatch(event.params.seed) ? entity.accountA : entity.accountB;
+
   entity.save();
 }
