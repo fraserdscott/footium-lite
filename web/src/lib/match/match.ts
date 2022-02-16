@@ -55,6 +55,8 @@ class MatchStore implements QueryStore<Match> {
         id
         accountA
         accountB
+        formationA
+        formationB
         status
         requestId
         seed

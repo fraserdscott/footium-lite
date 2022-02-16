@@ -12,6 +12,8 @@ type Match @entity {
   accountB: Bytes!
   requestId: Bytes!
   status: Int!
+  formationA: [Int!]
+  formationB: [Int!]
   seed: Int
   winner: Bytes
 }

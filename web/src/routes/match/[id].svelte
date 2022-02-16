@@ -29,6 +29,7 @@
       <div class="px-2">
         <h2>
           <b>{formatAddress($match.data.accountA)}</b> VS <b>{formatAddress($match.data.accountB)}</b>
+          <p>{$match.data.formationA} VS {$match.data.formationB}</p>
         </h2>
         {#if $match.data.status === 0}
           <div>VRF not received</div>

@@ -34,6 +34,8 @@ export function handleMatchRegistered(event: MatchRegistered): void {
   }
   entity.accountA = event.params.accountA;
   entity.accountB = event.params.accountB;
+  entity.formationA = [event.params.formationA[0].toI32(), event.params.formationA[1].toI32(), event.params.formationA[2].toI32(), event.params.formationA[3].toI32(), event.params.formationA[4].toI32()];
+  entity.formationB = [event.params.formationB[0].toI32(), event.params.formationB[1].toI32(), event.params.formationB[2].toI32(), event.params.formationB[3].toI32(), event.params.formationB[4].toI32()];
   entity.status = 0;
   entity.requestId = event.params.requestId;
   entity.save();
