@@ -8,7 +8,6 @@ import {FootiumLitePlayers} from "../FootiumLitePlayers/FootiumLitePlayers.sol";
 contract FootiumLiteFriendlies is VRFConsumerBase {
     bytes32 private constant keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
     uint256 private constant fee = 0.1 * 10**18;
-    uint256 constant TRAITS_NUMBER = 3;
     uint256 constant TEAM_SIZE = 5;
 
     enum MatchStatus {
