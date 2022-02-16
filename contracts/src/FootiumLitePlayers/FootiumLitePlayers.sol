@@ -22,4 +22,8 @@ contract FootiumLitePlayers is ERC721 {
 
         emit PlayerSigned(tokenId, traits[tokenId]);
     }
+
+    function getTraits(uint256 tokenId) public view returns (uint256[TRAITS_NUMBER] memory) {
+        return traits[tokenId];
+    }
 }

@@ -93,12 +93,21 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
     /* Pure */
 
-    function simulateMatch(
-        // uint256[TEAM_SIZE] calldata formationA,
-        // uint256[TEAM_SIZE] calldata formationB,
-        uint256 seed
-    ) public pure returns (bool) {
-        // A always wins
-        return true;
+    function simulateMatch(uint256 seed) public view returns (bool) {
+        uint256[TEAM_SIZE] memory formationA;
+        uint256[TEAM_SIZE] memory formationB;
+
+        uint256 attackA;
+        uint256 attackB;
+        for (uint256 i = 0; i < TEAM_SIZE; i++) {
+            uint256[3] memory playerA = players.getTraits(formationA[i]);
+            uint256[3] memory playerB = players.getTraits(formationB[i]);
+            for (uint256 j; j < playerA.length; j++) {
+                attackA += playerA[j];
+                attackB += playerB[j];
+            }
+        }
+
+        return seed % (attackA + attackB) < attackA;
     }
 }
