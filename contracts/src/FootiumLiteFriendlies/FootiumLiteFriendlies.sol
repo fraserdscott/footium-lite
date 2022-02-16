@@ -88,8 +88,8 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
     /* Pure */
 
     function simulateMatch(
-        uint256[TEAM_SIZE] calldata formationA,
-        uint256[TEAM_SIZE] calldata formationB,
+        // uint256[TEAM_SIZE] calldata formationA,
+        // uint256[TEAM_SIZE] calldata formationB,
         uint256 seed
     ) public pure returns (bool) {
         // A always wins
