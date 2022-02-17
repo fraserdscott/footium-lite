@@ -33,7 +33,6 @@
         <p>{$owner.data.formation}</p>
         <h2>Update formation</h2>
         <input bind:value={newFormation} />
-        <h1>Set formation</h1>
         <span>
           <button
             on:click={() => setTactics(newFormation.split(',').map((s) => parseInt(s)))}

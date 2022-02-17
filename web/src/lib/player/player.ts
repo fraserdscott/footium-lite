@@ -11,10 +11,8 @@ import { chainTempo } from '$lib/blockchain/chainTempo';
 
 type Player = {
   id: string;
-  owner: string;
-  strength: string;
-  perception: string;
-  endurance: string;
+  owner: { id: string };
+  traits: number[];
   pending: boolean;
 };
 
@@ -56,7 +54,9 @@ class PlayerStore implements QueryStore<Player> {
     query GetPlayer($id: ID){
       player(id: $id) {
         id
-        owner
+        owner {
+          id
+        }
         traits
       }
     }`,

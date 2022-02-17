@@ -1,14 +1,13 @@
-type Player @entity {
-  id: ID!
-  owner: Bytes!
-  traits: [Int!]
-}
-
 type Owner @entity {
   id: ID!
   formation: [Int!]!
 }
 
+type Player @entity {
+  id: ID!
+  owner: Owner!
+  traits: [Int!]
+}
 
 type Match @entity {
   id: ID!

@@ -30,9 +30,11 @@ export function getOrCreateOwner(
 
 export function handleTransfer(event: Transfer): void {
   const player = getOrCreatePlayer(event.params.tokenId.toHex());
+  let owner = getOrCreateOwner(event.params.to.toHexString());
 
-  player.owner = event.params.to;
+  player.owner = owner.id;
   player.save();
+  owner.save();
 }
 
 export function handleSigned(event: PlayerSigned): void {

@@ -6,8 +6,8 @@
   import {page} from '$app/stores';
 
   const player = getPlayer(`0x${$page.params.id}`);
-  
-  async function mintPlayer(tokenId:number) {
+
+  async function mintPlayer(tokenId: string) {
     await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
   }
 </script>
@@ -26,41 +26,40 @@
       <div>Error: {$player.error}</div>
     {:else if $player.step === 'LOADING' || !$player.data}
       <div>
-          <p>This player has not been minted yet.</p>
-          <button
-            on:click={()=>mintPlayer($page.params.id)}
-            class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
+        <p>This player has not been minted yet.</p>
+        <button
+          on:click={() => mintPlayer($page.params.id)}
+          class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
                 text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
-            type="button"
-          >
-            Mint
-          </button>   
-        </div>
+          type="button"
+        >
+          Mint
+        </button>
+      </div>
     {:else}
-        <div class="px-2">
-          <p>
-            Owner: {$player.data.owner}
-          </p>
-          <table class="border">
-            <tr>
-              <th>Trait</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Strength</td>
-              <td>{$player.data.traits[0]} / 100</td>
-            </tr>
-            <tr>
-              <td>Perception</td>
-              <td>{$player.data.traits[1]} / 100</td>
-            </tr>
-            <tr>
-              <td>Endurance</td>
-              <td>{$player.data.traits[2]} / 100</td>
-            </tr>
-          </table>
-        </div>
-
+      <div class="px-2">
+        <p>
+          Owner: {$player.data.owner.id}
+        </p>
+        <table class="border">
+          <tr>
+            <th>Trait</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Strength</td>
+            <td>{$player.data.traits[0]} / 100</td>
+          </tr>
+          <tr>
+            <td>Perception</td>
+            <td>{$player.data.traits[1]} / 100</td>
+          </tr>
+          <tr>
+            <td>Endurance</td>
+            <td>{$player.data.traits[2]} / 100</td>
+          </tr>
+        </table>
+      </div>
     {/if}
   </div>
 </WalletAccess>
