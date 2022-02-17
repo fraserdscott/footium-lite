@@ -11,6 +11,7 @@ import { chainTempo } from '$lib/blockchain/chainTempo';
 
 type Players = {
   id: string;
+  image: string;
 }[];
 
 // TODO web3w needs to export the type
@@ -49,8 +50,9 @@ class MatchesStore implements QueryStore<Players> {
       endpoint,
       `
     query {
-      players(first: 10) {
+      players(first: 50) {
         id
+        image
       }
     }`,
       chainTempo,

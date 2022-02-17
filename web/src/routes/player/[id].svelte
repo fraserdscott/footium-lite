@@ -1,8 +1,7 @@
 <script lang="ts">
   import {getPlayer} from '$lib/player/player';
-  import {wallet, flow, chain} from '$lib/blockchain/wallet';
+  import {flow} from '$lib/blockchain/wallet';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
-  import {onMount} from 'svelte';
   import {page} from '$app/stores';
 
   const player = getPlayer(`0x${$page.params.id}`);

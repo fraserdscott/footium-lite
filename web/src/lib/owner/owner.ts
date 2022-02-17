@@ -12,6 +12,7 @@ import { chainTempo } from '$lib/blockchain/chainTempo';
 type Owner = {
   id: string;
   formation: number[];
+  players: any[];
 };
 
 // TODO web3w needs to export the type

@@ -4,11 +4,14 @@ import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet }
 import { Player, Match, Owner } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
+const svg = `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>`;
+
 export function getOrCreatePlayer(
   id: string
 ): Player {
   let player = Player.load(id);
   if (!player) {
+    x
     player = new Player(id);
   }
 
@@ -41,6 +44,7 @@ export function handleSigned(event: PlayerSigned): void {
   const player = getOrCreatePlayer(event.params.tokenId.toHex());
 
   player.traits = [event.params.traits[0].toI32(), event.params.traits[1].toI32(), event.params.traits[2].toI32()];
+  player.image = svg;
   player.save();
 }
 
