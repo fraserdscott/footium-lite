@@ -28,21 +28,13 @@
       <div>Loading matches...</div>
     {:else}
       {#each $matches.data as match, index}
-          <NavButton
-            href={`/match/${index}`}
-            class="m-4 w-max-content"
-          >
-              Match {index} | {match.status === 0 ? "Not finished" : "Finished"}
+        <NavButton href={`/match/${index}`} class="m-4 w-max-content text-primary">
+          Match {index} | {match.status === 0 ? 'Not finished' : 'Finished'}
         </NavButton>
       {/each}
-      <NavButton
-          href={"/createMatch"}
-          class="m-4 w-max-content"
-        >
-          Create a match
-      </NavButton>
+      <NavButton href={'/createMatch'} class="m-4 w-max-content">Create a match</NavButton>
     {/if}
-    </div>
+  </div>
 </WalletAccess>
 
 <style>
