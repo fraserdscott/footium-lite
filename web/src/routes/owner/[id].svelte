@@ -3,7 +3,6 @@
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
   import {flow} from '$lib/blockchain/wallet';
-  import {map} from 'wonka';
 
   async function setTactics(formation: number[]) {
     await flow.execute((contracts) => contracts.FootiumLiteFriendlies.setTactics(formation));
@@ -30,12 +29,9 @@
       <div />
     {:else}
       <div class="px-2">
-        <p>
-          Owner: {$owner.data.id}
-        </p>
-        <p>
-          Current formation: {$owner.data.formation}
-        </p>
+        <h2>Current formation</h2>
+        <p>{$owner.data.formation}</p>
+        <h2>Update formation</h2>
         <input bind:value={newFormation} />
         <h1>Set formation</h1>
         <span>

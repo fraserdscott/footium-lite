@@ -1,9 +1,10 @@
 <script lang="ts">
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
-  import {wallet, flow, chain} from '$lib/blockchain/wallet';
+  import {wallet} from '$lib/blockchain/wallet';
   import {onMount} from 'svelte';
   import {combine} from 'footium-lite-common';
+  import {players} from '$lib/players/players';
 
   onMount(() => {
     console.log('mount players', {
@@ -19,15 +20,14 @@
 </symbol>
 <WalletAccess>
   <div class={`flex flex-wrap items-center -mx-2`}>
-      {#each [1,2,3,4,5] as item, index}
-            <NavButton
-              href={`/player/${index}`}
-              class="m-4 w-max-content"
-            >
-              Player {index}
-        </NavButton>
-      {/each}
-    </div>
+    {#each [1, 2, 3, 4, 5] as item, index}
+      <NavButton href={`/player/${index}`} class="m-4 w-max-content">
+        Player {index} | {$players.data && $players.data.find((p) => parseInt(p.id) === index)
+          ? 'Minted'
+          : 'Not minted'}
+      </NavButton>
+    {/each}
+  </div>
 </WalletAccess>
 
 <style>

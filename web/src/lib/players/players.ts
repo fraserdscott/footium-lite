@@ -9,12 +9,9 @@ import { HookedQueryStore } from '$lib/utils/stores/graphql';
 import type { EndPoint } from '$lib/utils/graphql/endpoint';
 import { chainTempo } from '$lib/blockchain/chainTempo';
 
-type Match = {
+type Players = {
   id: string;
-  status: number;
-  accountA: { id: string, formation: number[] };
-  accountB: { id: string, formation: number[] };
-};
+}[];
 
 // TODO web3w needs to export the type
 type TransactionStatus = 'pending' | 'cancelled' | 'success' | 'failure' | 'mined';
@@ -44,37 +41,25 @@ type TransactionRecord = {
   events?: unknown[]; // TODO
 };
 
-class MatchStore implements QueryStore<Match> {
-  private queryStore: QueryStore<Match>;
-  private store: Readable<QueryState<Match>>;
-  constructor(endpoint: EndPoint, private transactions: TransactionStore, id: string) {
+class MatchesStore implements QueryStore<Players> {
+  private queryStore: QueryStore<Players>;
+  private store: Readable<QueryState<Players>>;
+  constructor(endpoint: EndPoint, private transactions: TransactionStore) {
     this.queryStore = new HookedQueryStore(
       endpoint,
       `
-    query GetMatch($id: ID){
-      match(id: $id) {
+    query {
+      players(first: 10) {
         id
-        accountA {
-          id
-          formation
-        }
-        accountB {
-          id
-          formation
-        }
-        status
-        requestId
-        randomNumber
-        winStatus
       }
     }`,
       chainTempo,
-      { path: 'match', variables: { id } },
+      { path: 'players' }
     );
     this.store = derived([this.queryStore, this.transactions], (values) => this.update(values)); // lambda ensure update is not bound and can be hot swapped on HMR
   }
 
-  private update([$query]: [QueryState<Match>, TransactionRecord[]]): QueryState<Match> {
+  private update([$query]: [QueryState<Players>, TransactionRecord[]]): QueryState<Players> {
     if (!$query.data) {
       return $query;
     } else {
@@ -92,11 +77,11 @@ class MatchStore implements QueryStore<Match> {
   }
 
   subscribe(
-    run: Subscriber<QueryState<Match>>,
-    invalidate?: Invalidator<QueryState<Match>> | undefined
+    run: Subscriber<QueryState<Players>>,
+    invalidate?: Invalidator<QueryState<Players>> | undefined
   ): Unsubscriber {
     return this.store.subscribe(run, invalidate);
   }
 }
 
-export const getMatch = (tokenId: string) => new MatchStore(SUBGRAPH_ENDPOINT, transactions, tokenId);
+export const players = new MatchesStore(SUBGRAPH_ENDPOINT, transactions);

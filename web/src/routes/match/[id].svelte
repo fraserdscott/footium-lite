@@ -28,14 +28,6 @@
         <h2>
           <b>{formatAddress($match.data.accountA.id)}</b> VS <b>{formatAddress($match.data.accountB.id)}</b>
           <p>{$match.data.accountA.formation} VS {$match.data.accountB.formation}</p>
-          <button
-            on:click={() => setTactics()}
-            class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
-                text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
-            type="button"
-          >
-            Set tactics A
-          </button>
         </h2>
         {#if $match.data.status === 0}
           <div>VRF not received</div>

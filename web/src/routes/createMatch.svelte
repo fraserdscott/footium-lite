@@ -1,19 +1,12 @@
 <script lang="ts">
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
-  import NavButton from '$lib/components/styled/navigation/NavButton.svelte';
-  import {wallet, flow, chain} from '$lib/blockchain/wallet';
-  import {onMount} from 'svelte';
-  import {combine} from 'footium-lite-common';
+  import {flow} from '$lib/blockchain/wallet';
 
-  async function createMatch() {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch("0xb19BC46C52A1352A071fe2389503B6FE1ABD50Ff"));
+  async function createMatch(accountB) {
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch(accountB));
   }
 
-  onMount(() => {
-    console.log('mount players', {
-      combine: combine(wallet.address || '0x0000000000000000000000000000000000000000', 'hi').toString(),
-    });
-  });
+  let accountB = '0x0000000000000000000000000000000000000000';
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -22,9 +15,10 @@
   />
 </symbol>
 <WalletAccess>
-  <div class={`flex flex-wrap items-center -mx-2`}>
-      <button on:click={createMatch}>Create a match</button>
-    </div>
+  <div class="py-8 px-4">
+    <input bind:value={accountB} />
+    <button on:click={() => createMatch(accountB)}>Create a match</button>
+  </div>
 </WalletAccess>
 
 <style>
