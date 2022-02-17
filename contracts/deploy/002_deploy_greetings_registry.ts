@@ -1,10 +1,20 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
-import { deployments } from 'hardhat';
+import { deployments, ethers } from 'hardhat';
 const { execute } = deployments;
 import fs from 'fs';
 
-const haircutArt = fs.readFileSync('svgs/haircut1.svg', 'utf8');
+const hair: string[] = [];
+for (let i = 1; i < 11; i++) {
+  hair.push(fs.readFileSync(`svgs/haircut${i}.svg`, 'utf8'));
+}
+
+const face: string[] = [];
+for (let i = 1; i < 6; i++) {
+  face.push(fs.readFileSync(`svgs/face${i}.svg`, 'utf8'));
+}
+
+const head = fs.readFileSync(`svgs/heads1.svg`, 'utf8');
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
@@ -17,7 +27,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     autoMine: true,
   });
 
-  await execute('Svgs', { from: deployer, log: true }, 'storeSvg', haircutArt);
+  for (let i = 0; i < 10; i++) {
+    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', hair[i], ethers.utils.formatBytes32String("hair"));
+  }
+
+  for (let i = 0; i < 5; i++) {
+    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', face[i], ethers.utils.formatBytes32String("face"));
+  }
+
+  await execute('Svgs', { from: deployer, log: true }, 'storeSvg', head, ethers.utils.formatBytes32String("head"));
 
   const linkToken = await deploy('LinkTokenMock', {
     from: deployer,

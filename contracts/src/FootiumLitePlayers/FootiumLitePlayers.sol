@@ -10,6 +10,8 @@ contract FootiumLitePlayers is ERC721 {
     uint256 constant MAX_STAT = 101;
 
     Svgs svgs;
+    mapping(uint256 => uint256[TRAITS_NUMBER]) traits;
+    mapping(uint256 => uint256[2]) imageTraits;
 
     event PlayerSigned(uint256 tokenId, uint256[TRAITS_NUMBER] traits);
 
@@ -17,12 +19,13 @@ contract FootiumLitePlayers is ERC721 {
         svgs = _svgs;
     }
 
-    mapping(uint256 => uint256[TRAITS_NUMBER]) traits;
-
     function mint(uint256 tokenId) external {
         for (uint256 i; i < TRAITS_NUMBER; i++) {
             traits[tokenId][i] = uint256(keccak256(abi.encode(tokenId, i))) % MAX_STAT;
         }
+
+        imageTraits[tokenId][0] = uint256(keccak256(abi.encode(tokenId))) % 10;
+        imageTraits[tokenId][1] = uint256(keccak256(abi.encode(tokenId))) % 5;
 
         _mint(msg.sender, tokenId);
 
@@ -34,6 +37,15 @@ contract FootiumLitePlayers is ERC721 {
     }
 
     function getImage(uint256 tokenId) public view returns (string memory) {
-        return svgs.getSvg(0);
+        return
+            string(
+                abi.encodePacked(
+                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302 362">',
+                    svgs.getSvg("head", 0),
+                    svgs.getSvg("face", imageTraits[tokenId][1]),
+                    svgs.getSvg("hair", imageTraits[tokenId][0]),
+                    "</svg>"
+                )
+            );
     }
 }

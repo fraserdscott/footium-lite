@@ -3,19 +3,16 @@ pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Svgs is Ownable {
-    event StoreSvg(uint256 indexed svgId, string svg);
+contract Svgs {
+    mapping(bytes32 => uint256) private ids;
+    mapping(bytes32 => mapping(uint256 => string)) private svgs;
 
-    uint256 id;
-    mapping(uint256 => string) private svgs;
-
-    function storeSvg(string calldata _svg) external onlyOwner {
-        svgs[id] = _svg;
-        emit StoreSvg(id, _svg);
-        id++;
+    function storeSvg(string calldata _svg, bytes32 _svgType) external {
+        svgs[_svgType][ids[_svgType]] = _svg;
+        ids[_svgType]++;
     }
 
-    function getSvg(uint256 _id) public view returns (string memory) {
-        return svgs[_id];
+    function getSvg(bytes32 _svgType, uint256 _id) public view returns (string memory) {
+        return svgs[_svgType][_id];
     }
 }

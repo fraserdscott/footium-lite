@@ -45,7 +45,7 @@ export function handleSigned(event: PlayerSigned): void {
   player.traits = event.params.traits.map<i32>(t => t.toI32());
 
   let contract = FootiumLitePlayersContract.bind(event.address);
-  player.image = contract.getImage(BigInt.fromI32(0));
+  player.image = contract.getImage(event.params.tokenId);
 
   player.save();
 }
