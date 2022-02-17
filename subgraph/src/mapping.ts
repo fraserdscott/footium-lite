@@ -1,17 +1,16 @@
 /* eslint-disable prefer-const */
-import { Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
+import { FootiumLitePlayersContract, Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
 import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
 import { Player, Match, Owner } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
-const svg = `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>`;
+// const svg = `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>`;
 
 export function getOrCreatePlayer(
   id: string
 ): Player {
   let player = Player.load(id);
   if (!player) {
-    x
     player = new Player(id);
   }
 
@@ -43,8 +42,11 @@ export function handleTransfer(event: Transfer): void {
 export function handleSigned(event: PlayerSigned): void {
   const player = getOrCreatePlayer(event.params.tokenId.toHex());
 
-  player.traits = [event.params.traits[0].toI32(), event.params.traits[1].toI32(), event.params.traits[2].toI32()];
-  player.image = svg;
+  player.traits = event.params.traits.map<i32>(t => t.toI32());
+
+  let contract = FootiumLitePlayersContract.bind(event.address);
+  player.image = contract.getImage(BigInt.fromI32(0));
+
   player.save();
 }
 
