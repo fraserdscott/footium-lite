@@ -37,6 +37,9 @@
       </div>
     {:else}
       <div class="px-2">
+        <svg height="350">
+          {@html $player.data.image}
+        </svg>
         <p>
           Owner: {$player.data.owner.id}
         </p>

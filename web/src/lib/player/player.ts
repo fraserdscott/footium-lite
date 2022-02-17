@@ -13,6 +13,7 @@ type Player = {
   id: string;
   owner: { id: string };
   traits: number[];
+  image: string;
   pending: boolean;
 };
 
@@ -58,6 +59,7 @@ class PlayerStore implements QueryStore<Player> {
           id
         }
         traits
+        image
       }
     }`,
       chainTempo,

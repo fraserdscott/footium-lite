@@ -23,9 +23,11 @@
     {#each [...Array(50).keys()] as item, index}
       <div class="row">
         <div>
-          {@html $players.data && $players.data.find((p) => parseInt(p.id) === index)
-            ? $players.data.find((p) => parseInt(p.id) === index).image
-            : `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="green" /></svg>`}
+          <svg height="350">
+            {@html $players.data && $players.data.find((p) => parseInt(p.id) === index)
+              ? $players.data.find((p) => parseInt(p.id) === index).image
+              : `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="green" /></svg>`}
+          </svg>
         </div>
         <NavButton href={`/player/${index}`} class="m-4 w-max-content">
           Player {index} | {$players.data && $players.data.find((p) => parseInt(p.id) === index)
