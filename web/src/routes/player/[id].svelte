@@ -37,7 +37,7 @@
       </div>
     {:else}
       <div class="px-2">
-        <svg height="350">
+        <svg width="150">
           {@html $player.data.image}
         </svg>
         <p>

@@ -5,16 +5,16 @@ const { execute } = deployments;
 import fs from 'fs';
 
 const hair: string[] = [];
-for (let i = 1; i < 11; i++) {
-  hair.push(fs.readFileSync(`svgs/haircut${i}.svg`, 'utf8'));
+for (let i = 0; i < 10; i++) {
+  hair.push(fs.readFileSync(`svgs/hair/hair${i}.svg`, 'utf8'));
 }
 
-const face: string[] = [];
-for (let i = 1; i < 6; i++) {
-  face.push(fs.readFileSync(`svgs/face${i}.svg`, 'utf8'));
+const pose: string[] = [];
+for (let i = 0; i < 4; i++) {
+  pose.push(fs.readFileSync(`svgs/pose/pose${i}.svg`, 'utf8'));
 }
 
-const head = fs.readFileSync(`svgs/heads1.svg`, 'utf8');
+const shirt = fs.readFileSync(`svgs/shirt/shirt1.svg`, 'utf8');
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
@@ -31,11 +31,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', hair[i], ethers.utils.formatBytes32String("hair"));
   }
 
-  for (let i = 0; i < 5; i++) {
-    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', face[i], ethers.utils.formatBytes32String("face"));
+  for (let i = 0; i < 4; i++) {
+    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', pose[i], ethers.utils.formatBytes32String("pose"));
   }
 
-  await execute('Svgs', { from: deployer, log: true }, 'storeSvg', head, ethers.utils.formatBytes32String("head"));
+  await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shirt, ethers.utils.formatBytes32String("shirt"));
 
   const linkToken = await deploy('LinkTokenMock', {
     from: deployer,

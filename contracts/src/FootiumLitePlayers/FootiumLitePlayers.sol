@@ -24,8 +24,8 @@ contract FootiumLitePlayers is ERC721 {
             traits[tokenId][i] = uint256(keccak256(abi.encode(tokenId, i))) % MAX_STAT;
         }
 
-        imageTraits[tokenId][0] = uint256(keccak256(abi.encode(tokenId))) % 10;
-        imageTraits[tokenId][1] = uint256(keccak256(abi.encode(tokenId))) % 5;
+        imageTraits[tokenId][0] = uint256(keccak256(abi.encode(tokenId))) % 5;
+        imageTraits[tokenId][1] = uint256(keccak256(abi.encode(tokenId))) % 10;
 
         _mint(msg.sender, tokenId);
 
@@ -40,10 +40,10 @@ contract FootiumLitePlayers is ERC721 {
         return
             string(
                 abi.encodePacked(
-                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 302 362">',
-                    svgs.getSvg("head", 0),
-                    svgs.getSvg("face", imageTraits[tokenId][1]),
-                    svgs.getSvg("hair", imageTraits[tokenId][0]),
+                    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 210 297">',
+                    svgs.getSvg("pose", imageTraits[tokenId][0]),
+                    svgs.getSvg("hair", imageTraits[tokenId][1]),
+                    svgs.getSvg("shirt", 0),
                     "</svg>"
                 )
             );

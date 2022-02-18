@@ -26,7 +26,7 @@
     {#each [...Array(50).keys()] as item, index}
       <div class="row">
         <div>
-          <svg height="350">
+          <svg width="200">
             {@html $players.data && $players.data.find((p) => parseInt(p.id) === index)
               ? $players.data.find((p) => parseInt(p.id) === index).image
               : standIn}
