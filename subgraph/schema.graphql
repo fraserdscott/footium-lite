@@ -15,6 +15,7 @@ type Match @entity {
   accountA: Owner!
   accountB: Owner!
   requestId: Bytes!
+  timestamp: Int!
   status: Int!
   randomNumber: Int
   winStatus: Int

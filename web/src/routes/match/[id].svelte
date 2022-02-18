@@ -28,6 +28,7 @@
         <h2>
           <b>{formatAddress($match.data.accountA.id)}</b> VS <b>{formatAddress($match.data.accountB.id)}</b>
           <p>{$match.data.accountA.formation} VS {$match.data.accountB.formation}</p>
+          <p>Will take place on: {new Date($match.data.timestamp).toDateString()}</p>
         </h2>
         {#if $match.data.status === 0}
           <div>VRF not received</div>

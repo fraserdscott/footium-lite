@@ -14,6 +14,7 @@ type Match = {
   status: number;
   accountA: { id: string, formation: number[] };
   accountB: { id: string, formation: number[] };
+  timestamp: number;
 };
 
 // TODO web3w needs to export the type
@@ -66,6 +67,7 @@ class MatchStore implements QueryStore<Match> {
         requestId
         randomNumber
         winStatus
+        timestamp
       }
     }`,
       chainTempo,

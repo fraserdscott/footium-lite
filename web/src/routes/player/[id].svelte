@@ -4,7 +4,7 @@
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
 
-  const player = getPlayer(`0x${$page.params.id}`);
+  const player = getPlayer($page.params.id);
 
   async function mintPlayer(tokenId: string) {
     await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));

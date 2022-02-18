@@ -23,6 +23,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
     struct Match {
         uint256 seed;
+        uint256 timestamp;
         address accountA;
         address accountB;
         MatchStatus status;
@@ -35,6 +36,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
     event MatchRegistered(
         uint256 index,
+        uint256 timestamp,
         address accountA,
         address accountB,
         bytes32 requestId,
@@ -78,10 +80,10 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
     /* External */
 
-    function registerMatch(address accountB) external {
+    function registerMatch(address accountB, uint256 timestamp) external {
         uint256 index = matches.length;
 
-        Match memory game = Match(0, msg.sender, accountB, MatchStatus.STATUS_VRF_PENDING);
+        Match memory game = Match(0, timestamp, msg.sender, accountB, MatchStatus.STATUS_VRF_PENDING);
         matches.push(game);
 
         bytes32 requestId = requestRandomness(keyHash, fee);
@@ -89,6 +91,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
 
         emit MatchRegistered(
             index,
+            timestamp,
             game.accountA,
             game.accountB,
             requestId,

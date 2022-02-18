@@ -36,7 +36,7 @@ contract FootiumLitePlayers is ERC721 {
         return traits[tokenId];
     }
 
-    function getImage(uint256 tokenId) public view returns (string memory) {
+    function getPlayerSvg(uint256 tokenId) public view returns (string memory) {
         return
             string(
                 abi.encodePacked(

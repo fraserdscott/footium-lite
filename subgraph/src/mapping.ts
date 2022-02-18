@@ -4,8 +4,6 @@ import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet }
 import { Player, Match, Owner } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
-// const svg = `<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>`;
-
 export function getOrCreatePlayer(
   id: string
 ): Player {
@@ -31,7 +29,7 @@ export function getOrCreateOwner(
 
 
 export function handleTransfer(event: Transfer): void {
-  const player = getOrCreatePlayer(event.params.tokenId.toHex());
+  const player = getOrCreatePlayer(event.params.tokenId.toString());
   let owner = getOrCreateOwner(event.params.to.toHexString());
 
   player.owner = owner.id;
@@ -40,12 +38,12 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleSigned(event: PlayerSigned): void {
-  const player = getOrCreatePlayer(event.params.tokenId.toHex());
+  const player = getOrCreatePlayer(event.params.tokenId.toString());
 
   player.traits = event.params.traits.map<i32>(t => t.toI32());
 
   let contract = FootiumLitePlayersContract.bind(event.address);
-  player.image = contract.getImage(event.params.tokenId);
+  player.image = contract.getPlayerSvg(event.params.tokenId);
 
   player.save();
 }
@@ -61,6 +59,7 @@ export function handleMatchRegistered(event: MatchRegistered): void {
 
   match.accountA = ownerA.id;
   match.accountB = ownerB.id;
+  match.timestamp = event.params.timestamp.toI32();
   match.status = 0;
   match.requestId = event.params.requestId;
   match.save();

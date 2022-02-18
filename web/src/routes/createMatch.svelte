@@ -2,11 +2,12 @@
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {flow} from '$lib/blockchain/wallet';
 
-  async function createMatch(accountB) {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch(accountB));
+  async function createMatch(accountB, timestamp) {
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch(accountB, timestamp));
   }
 
   let accountB = '0x0000000000000000000000000000000000000000';
+  let timestamp = 0;
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -17,7 +18,8 @@
 <WalletAccess>
   <div class="py-8 px-4">
     <input bind:value={accountB} />
-    <button on:click={() => createMatch(accountB)}>Create a match</button>
+    <input type="number" bind:value={timestamp} />
+    <button on:click={() => createMatch(accountB, timestamp)}>Create a match</button>
   </div>
 </WalletAccess>
 
