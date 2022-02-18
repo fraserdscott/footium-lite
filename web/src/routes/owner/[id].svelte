@@ -11,6 +11,10 @@
   const owner = getOwner($page.params.id.toLowerCase());
 
   let newFormation = '0,0,0,0,0';
+
+  owner.subscribe(() => {
+    if ($owner.data) newFormation = $owner.data.formation.toString();
+  });
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -29,8 +33,6 @@
       <div />
     {:else}
       <div class="px-2">
-        <h2>Current formation</h2>
-        <p>{$owner.data.formation}</p>
         <h2>Update formation</h2>
         <input bind:value={newFormation} />
         <span>

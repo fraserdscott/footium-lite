@@ -4,6 +4,18 @@ import { FootiumLiteFriendliesContract, MatchRegistered, MatchSeed, TacticsSet }
 import { Player, Match, Owner } from '../generated/schema';
 import { BigInt } from '@graphprotocol/graph-ts'
 
+export function getOrCreateOwner(
+  id: string
+): Owner {
+  let owner = Owner.load(id);
+  if (!owner) {
+    owner = new Owner(id);
+    owner.formation = [0, 0, 0, 0, 0];
+  }
+
+  return owner;
+}
+
 export function getOrCreatePlayer(
   id: string
 ): Player {
@@ -15,16 +27,15 @@ export function getOrCreatePlayer(
   return player;
 }
 
-export function getOrCreateOwner(
+export function getOrCreateMatch(
   id: string
-): Owner {
-  let owner = Owner.load(id);
-  if (!owner) {
-    owner = new Owner(id);
-    owner.formation = [0, 0, 0, 0, 0];
+): Match {
+  let match = Match.load(id);
+  if (!match) {
+    match = new Match(id);
   }
 
-  return owner;
+  return match;
 }
 
 
@@ -49,11 +60,8 @@ export function handleSigned(event: PlayerSigned): void {
 }
 
 export function handleMatchRegistered(event: MatchRegistered): void {
-  let id = event.params.index.toHex();
-  let match = Match.load(id);
-  if (!match) {
-    match = new Match(id);
-  }
+  let match = getOrCreateMatch(event.params.index.toString());
+
   let ownerA = getOrCreateOwner(event.params.accountA.toHexString());
   let ownerB = getOrCreateOwner(event.params.accountB.toHexString());
 
@@ -68,11 +76,8 @@ export function handleMatchRegistered(event: MatchRegistered): void {
 }
 
 export function handleMatchSeed(event: MatchSeed): void {
-  let id = event.params.index.toHex();
-  let match = Match.load(id);
-  if (!match) {
-    match = new Match(id);
-  }
+  let match = getOrCreateMatch(event.params.index.toString());
+
   let ownerA = getOrCreateOwner(match.accountA);
   let ownerB = getOrCreateOwner(match.accountB);
 

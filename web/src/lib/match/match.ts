@@ -15,6 +15,7 @@ type Match = {
   accountA: { id: string, formation: number[] };
   accountB: { id: string, formation: number[] };
   timestamp: number;
+  requestId: string;
 };
 
 // TODO web3w needs to export the type

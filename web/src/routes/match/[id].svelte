@@ -3,8 +3,10 @@
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
 
-  const match = getMatch(`0x${$page.params.id}`);
+  const match = getMatch($page.params.id);
+
   const formatAddress = (address: string) => `${address.slice(0, 8)}...`;
+  const formatDate = (timestamp: number) => new Date(timestamp * 1000).toDateString();
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -28,7 +30,7 @@
         <h2>
           <b>{formatAddress($match.data.accountA.id)}</b> VS <b>{formatAddress($match.data.accountB.id)}</b>
           <p>{$match.data.accountA.formation} VS {$match.data.accountB.formation}</p>
-          <p>Will take place on: {new Date($match.data.timestamp).toDateString()}</p>
+          <p>Will take place on: {formatDate($match.data.timestamp)}</p>
         </h2>
         {#if $match.data.status === 0}
           <div>VRF not received</div>
