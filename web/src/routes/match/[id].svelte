@@ -2,11 +2,16 @@
   import {getMatch} from '$lib/match/match';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
+  import {flow} from '$lib/blockchain/wallet';
 
   const match = getMatch($page.params.id);
 
   const formatAddress = (address: string) => `${address.slice(0, 8)}...`;
   const formatDate = (timestamp: number) => new Date(timestamp * 1000).toDateString();
+
+  async function requestVRF(matchId: string) {
+    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.requestSeed(matchId));
+  }
 </script>
 
 <symbol id="icon-spinner6" viewBox="0 0 32 32">
@@ -33,9 +38,19 @@
           <p>Will take place on: {formatDate($match.data.timestamp)}</p>
         </h2>
         {#if $match.data.status === 0}
+          <div>VRF not requested</div>
+          <button
+            on:click={() => requestVRF($page.params.id)}
+            class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
+                text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
+            type="button"
+          >
+            Request VRF
+          </button>
+        {:else if $match.data.status === 1}
           <div>VRF not received</div>
           <div>Request ID: {$match.data.requestId}</div>
-        {:else if $match.data.status === 1}
+        {:else if $match.data.status === 2}
           <div>VRF received</div>
           <div>Request ID: {$match.data.requestId}</div>
           <div>Seed: {$match.data.randomNumber}</div>

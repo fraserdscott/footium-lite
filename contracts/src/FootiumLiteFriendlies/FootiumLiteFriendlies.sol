@@ -11,6 +11,7 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
     uint256 constant TEAM_SIZE = 5;
 
     enum MatchStatus {
+        STATUS_REGISTERED,
         STATUS_VRF_PENDING,
         STATUS_READY
     }
@@ -39,10 +40,10 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         uint256 timestamp,
         address accountA,
         address accountB,
-        bytes32 requestId,
         uint256[TEAM_SIZE] formationA,
         uint256[TEAM_SIZE] formationB
     );
+    event MatchRequested(uint256 index, bytes32 requestId);
     event MatchSeed(uint256 index, uint256 seed);
     event TacticsSet(address owner, uint256[TEAM_SIZE] formation);
 
@@ -67,6 +68,42 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         _;
     }
 
+    /* External */
+
+    function setTactics(uint256[TEAM_SIZE] calldata formation) external {
+        formations[msg.sender] = formation;
+
+        emit TacticsSet(msg.sender, formation);
+    }
+
+    function registerMatch(address accountB, uint256 timestamp) external {
+        uint256 index = matches.length;
+
+        Match memory game = Match(0, timestamp, msg.sender, accountB, MatchStatus.STATUS_REGISTERED);
+        matches.push(game);
+
+        emit MatchRegistered(
+            index,
+            timestamp,
+            game.accountA,
+            game.accountB,
+            formations[msg.sender],
+            formations[accountB]
+        );
+    }
+
+    function requestSeed(uint256 index) external {
+        Match memory game = matches[index];
+
+        require(block.timestamp >= game.timestamp);
+
+        bytes32 requestId = requestRandomness(keyHash, fee);
+        requestToMatch[requestId] = index;
+        game.status = MatchStatus.STATUS_VRF_PENDING;
+
+        emit MatchRequested(index, requestId);
+    }
+
     /* Internal */
 
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
@@ -76,34 +113,6 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         game.status = MatchStatus.STATUS_READY;
 
         emit MatchSeed(requestToMatch[requestId], randomness);
-    }
-
-    /* External */
-
-    function registerMatch(address accountB, uint256 timestamp) external {
-        uint256 index = matches.length;
-
-        Match memory game = Match(0, timestamp, msg.sender, accountB, MatchStatus.STATUS_VRF_PENDING);
-        matches.push(game);
-
-        bytes32 requestId = requestRandomness(keyHash, fee);
-        requestToMatch[requestId] = index;
-
-        emit MatchRegistered(
-            index,
-            timestamp,
-            game.accountA,
-            game.accountB,
-            requestId,
-            formations[msg.sender],
-            formations[accountB]
-        );
-    }
-
-    function setTactics(uint256[TEAM_SIZE] calldata formation) external {
-        formations[msg.sender] = formation;
-
-        emit TacticsSet(msg.sender, formation);
     }
 
     /* View */
