@@ -127,7 +127,6 @@ async function performAction(rawArgs) {
       await execute('rimraf contracts/deployments/localhost && rimraf web/src/lib/contracts.json');
     }
     await execute(`wait-on tcp:localhost:8545`);
-    await performAction([`contracts:execute`, 'localhost', 'contracts/scripts/fundingFromCoinbase.ts']);
     await wait(1); // slight delay to ensure ethereum node is actually ready
     await execute(
       `dotenv -e .env -e contracts/.env -- npm --prefix contracts run local:dev -- --export ../web/src/lib/contracts.json`
