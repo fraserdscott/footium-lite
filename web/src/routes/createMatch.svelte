@@ -3,7 +3,7 @@
   import {flow} from '$lib/blockchain/wallet';
 
   async function createMatch(accountB, timestamp) {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.registerMatch(accountB, timestamp));
+    await flow.execute((contracts) => contracts.FootiumLiteTournament.registerMatch(accountB, timestamp));
   }
 
   let accountB = '0x0000000000000000000000000000000000000000';

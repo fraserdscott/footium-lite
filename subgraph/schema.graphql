@@ -10,13 +10,9 @@ type Player @entity {
   image: String!
 }
 
-type Match @entity {
+type Day @entity {
   id: ID!
-  accountA: Owner!
-  accountB: Owner!
-  timestamp: Int!
   status: Int!
   requestId: Bytes
   randomNumber: Int
-  winStatus: Int
 }

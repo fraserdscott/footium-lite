@@ -5,7 +5,7 @@
   import {flow} from '$lib/blockchain/wallet';
 
   async function setTactics(formation: number[]) {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.setTactics(formation));
+    await flow.execute((contracts) => contracts.FootiumLiteTournament.setTactics(formation));
   }
 
   const owner = getOwner($page.params.id.toLowerCase());

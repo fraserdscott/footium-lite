@@ -26,12 +26,12 @@ dataSources:
           handler: handleSigned
       file: ./src/mapping.ts
   - kind: ethereum/contract
-    name: FootiumLiteFriendlies
+    name: FootiumLiteTournament
     network: {{chainName}}
     source:
-      address: '{{contracts.FootiumLiteFriendlies.address}}'
-      abi: FootiumLiteFriendliesContract
-      startBlock: {{contracts.FootiumLiteFriendlies.receipt.blockNumber}}
+      address: '{{contracts.FootiumLiteTournament.address}}'
+      abi: FootiumLiteTournamentContract
+      startBlock: {{contracts.FootiumLiteTournament.receipt.blockNumber}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -39,15 +39,13 @@ dataSources:
       entities:
         - MessageEntry
       abis:
-        - name: FootiumLiteFriendliesContract
-          file: ./abis/FootiumLiteFriendlies.json
+        - name: FootiumLiteTournamentContract
+          file: ./abis/FootiumLiteTournament.json
       eventHandlers:
-        - event: MatchRegistered(uint256,uint256,address,address,uint256[5],uint256[5])
-          handler: handleMatchRegistered
-        - event: MatchRequested(uint256,bytes32)
-          handler: handleMatchRequested
-        - event: MatchSeed(uint256,uint256)
-          handler: handleMatchSeed
+        - event: DayRequested(uint256,bytes32)
+          handler: handleDayRequested
+        - event: DaySeed(uint256,uint256)
+          handler: handleDaySeed
         - event: TacticsSet(address,uint256[5])
           handler: handleTacticsSet
       file: ./src/mapping.ts

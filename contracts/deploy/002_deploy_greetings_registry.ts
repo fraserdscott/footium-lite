@@ -58,9 +58,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     autoMine: true,
   });
 
-  await deploy('FootiumLiteFriendlies', {
+  await deploy('FootiumLiteTournament', {
     from: deployer,
-    args: [vrfCoordinator.address, linkToken.address, players.address],
+    args: [vrfCoordinator.address, linkToken.address, players.address, 120, []],
     log: true,
     autoMine: true,
   });
@@ -68,4 +68,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 export default func;
 func.id = 'deploy_greetings_registry'; // id required to prevent reexecution
-func.tags = ['FootiumLitePlayers', 'FootiumLiteFriendlies'];
+func.tags = ['FootiumLitePlayers', 'FootiumLiteTournament'];

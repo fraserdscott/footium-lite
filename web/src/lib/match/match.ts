@@ -16,6 +16,7 @@ type Match = {
   accountB: { id: string, formation: number[] };
   timestamp: number;
   requestId: string;
+  randomNumber: number;
 };
 
 // TODO web3w needs to export the type
@@ -53,26 +54,16 @@ class MatchStore implements QueryStore<Match> {
     this.queryStore = new HookedQueryStore(
       endpoint,
       `
-    query GetMatch($id: ID){
-      match(id: $id) {
+    query GetDay($id: ID){
+      day(id: $id) {
         id
-        accountA {
-          id
-          formation
-        }
-        accountB {
-          id
-          formation
-        }
         status
         requestId
         randomNumber
-        winStatus
-        timestamp
       }
     }`,
       chainTempo,
-      { path: 'match', variables: { id } },
+      { path: 'day', variables: { id } },
     );
     this.store = derived([this.queryStore, this.transactions], (values) => this.update(values)); // lambda ensure update is not bound and can be hot swapped on HMR
   }
@@ -102,4 +93,4 @@ class MatchStore implements QueryStore<Match> {
   }
 }
 
-export const getMatch = (tokenId: string) => new MatchStore(SUBGRAPH_ENDPOINT, transactions, tokenId);
+export const getDay = (day: string) => new MatchStore(SUBGRAPH_ENDPOINT, transactions, day);

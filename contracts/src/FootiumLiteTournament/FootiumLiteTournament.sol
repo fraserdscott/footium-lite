@@ -5,67 +5,48 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
 import {FootiumLitePlayers} from "../FootiumLitePlayers/FootiumLitePlayers.sol";
 
-contract FootiumLiteFriendlies is VRFConsumerBase {
+contract FootiumLiteTournament is VRFConsumerBase {
     bytes32 private constant keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
     uint256 private constant fee = 0.1 * 10**18;
     uint256 constant TEAM_SIZE = 5;
 
-    enum MatchStatus {
-        STATUS_REGISTERED,
-        STATUS_VRF_PENDING,
-        STATUS_READY
-    }
-
-    enum SimStatus {
+    enum MatchResult {
         WIN_A,
         WIN_B,
         DRAW
     }
 
-    struct Match {
-        uint256 seed;
-        uint256 timestamp;
-        address accountA;
-        address accountB;
-        MatchStatus status;
-    }
-
     FootiumLitePlayers players;
-    Match[] matches;
-    mapping(bytes32 => uint256) private requestToMatch;
+    address[] owners;
+    // Request ID => Day
+    mapping(bytes32 => uint256) private requestToDay;
+    // Day => Seed
+    mapping(uint256 => uint256) private seeds;
+    // Owner => Formation
     mapping(address => uint256[TEAM_SIZE]) private formations;
 
-    event MatchRegistered(
-        uint256 index,
-        uint256 timestamp,
-        address accountA,
-        address accountB,
-        uint256[TEAM_SIZE] formationA,
-        uint256[TEAM_SIZE] formationB
-    );
-    event MatchRequested(uint256 index, bytes32 requestId);
-    event MatchSeed(uint256 index, uint256 seed);
+    uint256 duration;
+    uint256 dayZeroTimestamp;
+
+    event TournamentCreated(uint256 dayZeroTimestamp, uint256 duration);
+    event DayRequested(uint256 day, bytes32 requestId);
+    event DaySeed(uint256 day, uint256 seed);
     event TacticsSet(address owner, uint256[TEAM_SIZE] formation);
 
     constructor(
         address vrfCoordinator,
         address link,
-        FootiumLitePlayers _players
+        FootiumLitePlayers _players,
+        uint256 _duration,
+        address[] memory _owners
     ) VRFConsumerBase(vrfCoordinator, link) {
         players = _players;
-    }
+        owners = _owners;
+        duration = _duration;
 
-    /* Modifiers */
+        dayZeroTimestamp = block.timestamp;
 
-    modifier formationValid(address owner, uint256[TEAM_SIZE] calldata formation) {
-        bool[TEAM_SIZE] memory seenPlayer;
-        for (uint256 i = 0; i < TEAM_SIZE; i++) {
-            require(owner == players.ownerOf(formation[i]));
-            require(!seenPlayer[formation[i]]);
-
-            seenPlayer[formation[i]] = true;
-        }
-        _;
+        emit TournamentCreated(dayZeroTimestamp, duration);
     }
 
     /* External */
@@ -76,43 +57,22 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         emit TacticsSet(msg.sender, formation);
     }
 
-    function registerMatch(address accountB, uint256 timestamp) external {
-        uint256 index = matches.length;
-
-        Match memory game = Match(0, timestamp, msg.sender, accountB, MatchStatus.STATUS_REGISTERED);
-        matches.push(game);
-
-        emit MatchRegistered(
-            index,
-            timestamp,
-            game.accountA,
-            game.accountB,
-            formations[msg.sender],
-            formations[accountB]
-        );
-    }
-
-    function requestSeed(uint256 index) external {
-        Match memory game = matches[index];
-
-        require(block.timestamp >= game.timestamp);
+    function requestSeed(uint256 day) external {
+        require(block.timestamp >= dayZeroTimestamp + day * duration);
 
         bytes32 requestId = requestRandomness(keyHash, fee);
-        requestToMatch[requestId] = index;
-        game.status = MatchStatus.STATUS_VRF_PENDING;
+        requestToDay[requestId] = day;
 
-        emit MatchRequested(index, requestId);
+        emit DayRequested(day, requestId);
     }
 
     /* Internal */
 
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
-        Match storage game = matches[requestToMatch[requestId]];
+        uint256 day = requestToDay[requestId];
+        seeds[day] = randomness;
 
-        game.seed = randomness;
-        game.status = MatchStatus.STATUS_READY;
-
-        emit MatchSeed(requestToMatch[requestId], randomness);
+        emit DaySeed(day, randomness);
     }
 
     /* View */
@@ -133,16 +93,16 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         uint256 seed,
         uint256[] calldata formationA,
         uint256[] calldata formationB
-    ) public view returns (SimStatus) {
+    ) public view returns (MatchResult) {
         // Check that formations have been set
         bool invalidA = formationInvalid(formationA);
         bool invalidB = formationInvalid(formationB);
         if (invalidA && invalidB) {
-            return SimStatus.DRAW;
+            return MatchResult.DRAW;
         } else if (invalidA) {
-            return SimStatus.WIN_B;
+            return MatchResult.WIN_B;
         } else if (invalidB) {
-            return SimStatus.WIN_A;
+            return MatchResult.WIN_A;
         }
 
         // Run simulation
@@ -158,8 +118,8 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         }
 
         if (seed % (attackA + attackB) < attackA) {
-            return SimStatus.WIN_A;
+            return MatchResult.WIN_A;
         }
-        return SimStatus.WIN_B;
+        return MatchResult.WIN_B;
     }
 }

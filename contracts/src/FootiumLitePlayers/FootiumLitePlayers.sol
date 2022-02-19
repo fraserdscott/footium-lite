@@ -6,21 +6,21 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Svgs} from "../Svgs/Svgs.sol";
 
 contract FootiumLitePlayers is ERC721 {
-    uint256 constant TRAITS_NUMBER = 3;
+    uint256 constant TRAITS_NUM = 3;
     uint256 constant MAX_STAT = 101;
 
     Svgs svgs;
-    mapping(uint256 => uint256[TRAITS_NUMBER]) traits;
+    mapping(uint256 => uint256[TRAITS_NUM]) traits;
     mapping(uint256 => uint256[2]) imageTraits;
 
-    event PlayerSigned(uint256 tokenId, uint256[TRAITS_NUMBER] traits);
+    event PlayerSigned(uint256 tokenId, uint256[TRAITS_NUM] traits);
 
     constructor(Svgs _svgs) ERC721("FootiumLitePlayers", "FLP") {
         svgs = _svgs;
     }
 
     function mint(uint256 tokenId) external {
-        for (uint256 i; i < TRAITS_NUMBER; i++) {
+        for (uint256 i; i < TRAITS_NUM; i++) {
             traits[tokenId][i] = uint256(keccak256(abi.encode(tokenId, i))) % MAX_STAT;
         }
 
@@ -32,7 +32,7 @@ contract FootiumLitePlayers is ERC721 {
         emit PlayerSigned(tokenId, traits[tokenId]);
     }
 
-    function getTraits(uint256 tokenId) public view returns (uint256[TRAITS_NUMBER] memory) {
+    function getTraits(uint256 tokenId) public view returns (uint256[TRAITS_NUM] memory) {
         return traits[tokenId];
     }
 

@@ -1,16 +1,17 @@
 <script lang="ts">
-  import {getMatch} from '$lib/match/match';
+  import {getDay} from '$lib/match/match';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
   import {flow} from '$lib/blockchain/wallet';
+  import {params} from '$lib/config';
 
-  const match = getMatch($page.params.id);
+  const match = getDay($page.params.id);
 
   const formatAddress = (address: string) => `${address.slice(0, 8)}...`;
-  const formatDate = (timestamp: number) => new Date(timestamp * 1000).toDateString();
-
+  const formatDate = (timestamp: number) => new Date(timestamp * 1000).toString();
+  const duration = 120;
   async function requestVRF(matchId: string) {
-    await flow.execute((contracts) => contracts.FootiumLiteFriendlies.requestSeed(matchId));
+    await flow.execute((contracts) => contracts.FootiumLiteTournament.requestSeed(matchId));
   }
 </script>
 
@@ -28,15 +29,22 @@
       <div>Error: {$match.error}</div>
     {:else if $match.step === 'LOADING' || !$match.data}
       <div>
-        <p>This match has not been created yet.</p>
+        <p>
+          This day has not been created yet. Will take place on {formatDate(
+            1645234628 + parseInt($page.params.id) * duration
+          )}
+        </p>
+        <button
+          on:click={() => requestVRF($page.params.id)}
+          class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
+              text-white py-1 px-2 rounded disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
+          type="button"
+        >
+          Request VRF
+        </button>
       </div>
     {:else}
       <div class="px-2">
-        <h2>
-          <b>{formatAddress($match.data.accountA.id)}</b> VS <b>{formatAddress($match.data.accountB.id)}</b>
-          <p>{$match.data.accountA.formation} VS {$match.data.accountB.formation}</p>
-          <p>Will take place on: {formatDate($match.data.timestamp)}</p>
-        </h2>
         {#if $match.data.status === 0}
           <div>VRF not requested</div>
           <button
@@ -54,13 +62,6 @@
           <div>VRF received</div>
           <div>Request ID: {$match.data.requestId}</div>
           <div>Seed: {$match.data.randomNumber}</div>
-          <div>
-            Winner: {$match.data.winStatus === 0
-              ? formatAddress($match.data.accountA.id)
-              : $match.data.winStatus === 0
-              ? formatAddress($match.data.accountB.id)
-              : 'Draw'}
-          </div>
         {:else}
           <div class="px-2">Fix me</div>
         {/if}

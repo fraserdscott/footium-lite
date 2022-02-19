@@ -5,7 +5,7 @@ const args = process.argv.slice(2);
 const requestId = args[0];
 
 async function main() {
-  const friendliesArtifact = await get('FootiumLiteFriendlies');
+  const friendliesArtifact = await get('FootiumLiteTournament');
 
   const accountAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
 

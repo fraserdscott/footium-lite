@@ -1,8 +1,7 @@
 /* eslint-disable prefer-const */
 import { FootiumLitePlayersContract, Transfer, PlayerSigned } from '../generated/FootiumLitePlayers/FootiumLitePlayersContract';
-import { FootiumLiteFriendliesContract, MatchRegistered, MatchRequested, MatchSeed, TacticsSet } from '../generated/FootiumLiteFriendlies/FootiumLiteFriendliesContract';
-import { Player, Match, Owner } from '../generated/schema';
-import { BigInt } from '@graphprotocol/graph-ts'
+import { DayRequested, DaySeed, TacticsSet } from '../generated/FootiumLiteTournament/FootiumLiteTournamentContract';
+import { Player, Day, Owner } from '../generated/schema';
 
 export function getOrCreateOwner(
   id: string
@@ -27,17 +26,16 @@ export function getOrCreatePlayer(
   return player;
 }
 
-export function getOrCreateMatch(
+export function getOrCreateDay(
   id: string
-): Match {
-  let match = Match.load(id);
+): Day {
+  let match = Day.load(id);
   if (!match) {
-    match = new Match(id);
+    match = new Day(id);
   }
 
   return match;
 }
-
 
 export function handleTransfer(event: Transfer): void {
   const player = getOrCreatePlayer(event.params.tokenId.toString());
@@ -59,40 +57,19 @@ export function handleSigned(event: PlayerSigned): void {
   player.save();
 }
 
-export function handleMatchRegistered(event: MatchRegistered): void {
-  let match = getOrCreateMatch(event.params.index.toString());
+export function handleDayRequested(event: DayRequested): void {
+  let match = getOrCreateDay(event.params.day.toString());
 
-  let ownerA = getOrCreateOwner(event.params.accountA.toHexString());
-  let ownerB = getOrCreateOwner(event.params.accountB.toHexString());
-
-  match.accountA = ownerA.id;
-  match.accountB = ownerB.id;
-  match.timestamp = event.params.timestamp.toI32();
-  match.status = 0;
-  match.save();
-  ownerA.save();
-  ownerB.save();
-}
-
-export function handleMatchRequested(event: MatchRequested): void {
-  let match = getOrCreateMatch(event.params.index.toString());
-
-  match.status = 1;
   match.requestId = event.params.requestId;
+  match.status = 1;
   match.save();
 }
 
-export function handleMatchSeed(event: MatchSeed): void {
-  let match = getOrCreateMatch(event.params.index.toString());
-
-  let ownerA = getOrCreateOwner(match.accountA);
-  let ownerB = getOrCreateOwner(match.accountB);
+export function handleDaySeed(event: DaySeed): void {
+  let match = getOrCreateDay(event.params.day.toString());
 
   match.randomNumber = event.params.seed.toI32();
   match.status = 2;
-
-  let contract = FootiumLiteFriendliesContract.bind(event.address)
-  match.winStatus = contract.simulateMatch(event.params.seed, ownerA.formation.map<BigInt>(f => BigInt.fromI32(f)), ownerB.formation.map<BigInt>(f => BigInt.fromI32(f)));
 
   match.save();
 }
