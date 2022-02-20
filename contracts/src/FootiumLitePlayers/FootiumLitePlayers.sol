@@ -81,7 +81,7 @@ contract FootiumLitePlayers is ERC721, Ownable {
                     svgs.getSvg("facial", playersStats[tokenId].imageTraits[4]),
                     svgs.getSvg("hair", playersStats[tokenId].imageTraits[1]),
                     svgs.getSvg("brow", playersStats[tokenId].imageTraits[2]),
-                    svgs.getSvg("eye", playersStats[tokenId].imageTraits[3]),
+                    svgs.getSvg("eye", playersStats[tokenId].imageTraits[3])
                 )
             );
         return
