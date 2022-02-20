@@ -43,38 +43,38 @@
         <p>
           Owner: {$player.data.owner.id}
         </p>
-        {$player.data.goalKeeper ? 'Goal keeper' : 'Regular player'}
+        {$player.data.goalKeeper ? 'Goalkeeper' : 'Regular player'}
         <table class="border">
           <tr>
             <th>Trait</th>
             <th>Value</th>
           </tr>
           <tr>
-            <td>Trait 1</td>
+            <td>Composure</td>
             <td>{$player.data.traits[0]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 2</td>
+            <td>Height</td>
             <td>{$player.data.traits[1]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 3</td>
+            <td>Footedness</td>
             <td>{$player.data.traits[2]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 4</td>
+            <td>{$player.data.goalKeeper ? 'Reflexes' : 'Power'}</td>
             <td>{$player.data.traits[3]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 5</td>
+            <td>{$player.data.goalKeeper ? 'Handling' : 'Accuracy'}</td>
             <td>{$player.data.traits[4]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 6</td>
+            <td>{$player.data.goalKeeper ? 'Intimidation' : 'Technique'}</td>
             <td>{$player.data.traits[5]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 7</td>
+            <td>{$player.data.goalKeeper ? 'Jumping' : 'Speed'}</td>
             <td>{$player.data.traits[6]} / 10</td>
           </tr>
         </table>
