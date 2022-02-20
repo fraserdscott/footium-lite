@@ -72,7 +72,6 @@ contract FootiumLitePlayers is ERC721, Ownable {
         return playersStats[tokenId].numericTraits;
     }
 
-    // Fixme, uncomment code - the original function was too big
     function getPlayerSvg(uint256 tokenId) public view returns (string memory) {
         string memory part =
             string(
