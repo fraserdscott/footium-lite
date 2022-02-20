@@ -36,16 +36,13 @@
     <h2 class="text-6xl font-black mb-2 font-heading text-black dark:text-white">
       {name}
     </h2>
-    <p class="m-6 text-gray-800 dark:text-gray-300 text-xl">
-      A simpler version of the amazing game, Footium.
-    </p>
+    <p class="m-6 text-gray-800 dark:text-gray-300 text-xl">A simpler version of the amazing game, Footium.</p>
     <div class="max-w-md mx-auto pt-1 mt-5 space-y-3 md:mt-8 md:space-y-5">
       <div class="space-y-5 sm:flex sm:justify-center sm:space-y-0 sm:space-x-3">
-        <NavButton class="big secondary" href={url('demo/')} label="Try the Demo!">Demo</NavButton>
         <NavButton
           blank={true}
           class="big secondary"
-          href="https://github.com/wighawag/footium-lite"
+          href="https://github.com/fraserdscott/footium-lite"
           label="Check it out on github!"
         >
           Github

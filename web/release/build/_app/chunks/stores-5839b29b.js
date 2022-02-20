@@ -1,0 +1,2 @@
+import{X as t}from"./vendor-c564b019.js";const e=()=>{const s=t("__svelte__");return{page:{subscribe:s.page.subscribe},navigating:{subscribe:s.navigating.subscribe},get preloading(){return console.error("stores.preloading is deprecated; use stores.navigating instead"),{subscribe:s.navigating.subscribe}},session:s.session}},i={subscribe(s){return e().page.subscribe(s)}},o={subscribe(s){return e().navigating.subscribe(s)}};export{o as n,i as p};
+//# sourceMappingURL=stores-5839b29b.js.map
