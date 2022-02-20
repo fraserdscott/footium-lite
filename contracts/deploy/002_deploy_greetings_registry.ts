@@ -4,7 +4,7 @@ import { deployments, ethers } from 'hardhat';
 const { execute } = deployments;
 import fs from 'fs';
 
-const storeSvgs = true;
+const storeSvgs = false;
 
 const hair: string[] = [];
 for (let i = 0; i < 10; i++) {

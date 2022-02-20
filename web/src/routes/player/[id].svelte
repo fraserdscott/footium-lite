@@ -3,11 +3,14 @@
   import {flow} from '$lib/blockchain/wallet';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
+  import {BigNumber} from '@ethersproject/bignumber';
 
   const player = getPlayer($page.params.id);
 
   async function mintPlayer(tokenId: string) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
+    await flow.execute((contracts) =>
+      contracts.FootiumLitePlayers.mint(tokenId, {value: BigNumber.from('10000000000000000')})
+    );
   }
 </script>
 

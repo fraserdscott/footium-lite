@@ -12,6 +12,8 @@ contract FootiumLitePlayers is ERC721, Ownable {
     uint256 constant IMAGE_TRAITS_NUM = 7;
     uint256 constant MAX_STAT = 11;
 
+    uint256 constant MINT_PRICE = 0.01 ether;
+
     uint256[IMAGE_TRAITS_NUM] maxImageTraits = [5, 10, 8, 10, 9, 3, 10];
 
     struct Player {
@@ -41,7 +43,9 @@ contract FootiumLitePlayers is ERC721, Ownable {
 
     /* External */
 
-    function mint(uint256 tokenId) external {
+    function mint(uint256 tokenId) external payable {
+        require(msg.value == MINT_PRICE);
+
         playersStats[tokenId].firstName = firstNames[
             uint256(keccak256(abi.encode(tokenId, "first"))) % firstNames.length
         ];
