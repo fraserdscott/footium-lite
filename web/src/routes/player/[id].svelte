@@ -44,6 +44,7 @@
           Owner: {$player.data.owner.id}
         </p>
         {$player.data.goalKeeper ? 'Goalkeeper' : 'Regular player'}
+        <h2>General traits</h2>
         <table class="border">
           <tr>
             <th>Trait</th>
@@ -60,6 +61,13 @@
           <tr>
             <td>Footedness</td>
             <td>{$player.data.traits[2]} / 10</td>
+          </tr>
+        </table>
+        <h2>Specific traits</h2>
+        <table class="border">
+          <tr>
+            <th>Trait</th>
+            <th>Value</th>
           </tr>
           <tr>
             <td>{$player.data.goalKeeper ? 'Reflexes' : 'Power'}</td>
