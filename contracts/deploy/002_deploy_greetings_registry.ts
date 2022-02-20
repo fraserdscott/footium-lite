@@ -4,6 +4,8 @@ import { deployments, ethers } from 'hardhat';
 const { execute } = deployments;
 import fs from 'fs';
 
+const storeSvgs = false;
+
 const hair: string[] = [];
 for (let i = 0; i < 10; i++) {
   hair.push(fs.readFileSync(`svgs/hair/hair${i}.svg`, 'utf8'));
@@ -27,15 +29,17 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     autoMine: true,
   });
 
-  for (let i = 0; i < 10; i++) {
-    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', hair[i], ethers.utils.formatBytes32String("hair"));
-  }
+  if (storeSvgs) {
+    for (let i = 0; i < 10; i++) {
+      await execute('Svgs', { from: deployer, log: true }, 'storeSvg', hair[i], ethers.utils.formatBytes32String("hair"));
+    }
 
-  for (let i = 0; i < 4; i++) {
-    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', pose[i], ethers.utils.formatBytes32String("pose"));
-  }
+    for (let i = 0; i < 4; i++) {
+      await execute('Svgs', { from: deployer, log: true }, 'storeSvg', pose[i], ethers.utils.formatBytes32String("pose"));
+    }
 
-  await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shirt, ethers.utils.formatBytes32String("shirt"));
+    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shirt, ethers.utils.formatBytes32String("shirt"));
+  }
 
   const linkToken = await deploy('LinkTokenMock', {
     from: deployer,
@@ -53,7 +57,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const players = await deploy('FootiumLitePlayers', {
     from: deployer,
-    args: [svgs.address],
+    args: [svgs.address, ["Fraser", "George", "Jordan", "Sam"], ["Benton", "Scott", "Lord", "Jackson"]],
     log: true,
     autoMine: true,
   });
