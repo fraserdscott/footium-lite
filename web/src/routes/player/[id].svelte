@@ -48,6 +48,7 @@
             <th>Trait</th>
             <th>Value</th>
           </tr>
+          {$player.data.goalKeeper}
           <tr>
             <td>Strength</td>
             <td>{$player.data.traits[0]} / 100</td>

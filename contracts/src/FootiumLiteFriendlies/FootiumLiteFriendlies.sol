@@ -149,8 +149,8 @@ contract FootiumLiteFriendlies is VRFConsumerBase {
         uint256 attackA;
         uint256 attackB;
         for (uint256 i = 0; i < TEAM_SIZE; i++) {
-            uint256[3] memory playerA = players.getTraits(formationA[i]);
-            uint256[3] memory playerB = players.getTraits(formationB[i]);
+            uint256[7] memory playerA = players.getTraits(formationA[i]);
+            uint256[7] memory playerB = players.getTraits(formationB[i]);
             for (uint256 j; j < playerA.length; j++) {
                 attackA += playerA[j];
                 attackB += playerB[j];

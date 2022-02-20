@@ -6,30 +6,37 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Svgs} from "../Svgs/Svgs.sol";
 
 contract FootiumLitePlayers is ERC721 {
-    uint256 constant TRAITS_NUMBER = 3;
+    uint256 constant KEEPER_PROBABILITY_DENOMINATOR = 6;
+    uint256 constant TRAITS_NUMBER = 7;
     uint256 constant MAX_STAT = 101;
+    uint256 constant POSE_NUM = 5;
+    uint256 constant HAIR_NUM = 10;
 
     Svgs svgs;
+    mapping(uint256 => bool) goalKeeper;
     mapping(uint256 => uint256[TRAITS_NUMBER]) traits;
     mapping(uint256 => uint256[2]) imageTraits;
 
-    event PlayerSigned(uint256 tokenId, uint256[TRAITS_NUMBER] traits);
+    event PlayerSigned(uint256 tokenId, bool goalKeeper, uint256[TRAITS_NUMBER] traits);
 
     constructor(Svgs _svgs) ERC721("FootiumLitePlayers", "FLP") {
         svgs = _svgs;
     }
 
     function mint(uint256 tokenId) external {
+        bool keeper = (tokenId % 2) == 0;
+        goalKeeper[tokenId] = keeper;
+
         for (uint256 i; i < TRAITS_NUMBER; i++) {
             traits[tokenId][i] = uint256(keccak256(abi.encode(tokenId, i))) % MAX_STAT;
         }
 
-        imageTraits[tokenId][0] = uint256(keccak256(abi.encode(tokenId))) % 5;
-        imageTraits[tokenId][1] = uint256(keccak256(abi.encode(tokenId))) % 10;
+        imageTraits[tokenId][0] = uint256(keccak256(abi.encode(tokenId))) % POSE_NUM;
+        imageTraits[tokenId][1] = uint256(keccak256(abi.encode(tokenId))) % HAIR_NUM;
 
         _mint(msg.sender, tokenId);
 
-        emit PlayerSigned(tokenId, traits[tokenId]);
+        emit PlayerSigned(tokenId, keeper, traits[tokenId]);
     }
 
     function getTraits(uint256 tokenId) public view returns (uint256[TRAITS_NUMBER] memory) {

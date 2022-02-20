@@ -22,7 +22,7 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-        - event: PlayerSigned(uint256,uint256[3])
+        - event: PlayerSigned(uint256,bool,uint256[7])
           handler: handleSigned
       file: ./src/mapping.ts
   - kind: ethereum/contract

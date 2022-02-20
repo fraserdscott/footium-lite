@@ -23,6 +23,7 @@ export function getOrCreatePlayer(
   if (!player) {
     player = new Player(id);
   }
+  player.goalKeeper = false;
 
   return player;
 }
@@ -52,6 +53,7 @@ export function handleSigned(event: PlayerSigned): void {
   const player = getOrCreatePlayer(event.params.tokenId.toString());
 
   player.traits = event.params.traits.map<i32>(t => t.toI32());
+  player.goalKeeper = event.params.goalKeeper;
 
   let contract = FootiumLitePlayersContract.bind(event.address);
   player.image = contract.getPlayerSvg(event.params.tokenId);

@@ -8,6 +8,7 @@ type Player @entity {
   owner: Owner!
   traits: [Int!]
   image: String!
+  goalKeeper: Boolean!
 }
 
 type Match @entity {

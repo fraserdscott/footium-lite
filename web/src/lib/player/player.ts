@@ -59,6 +59,7 @@ class PlayerStore implements QueryStore<Player> {
           id
         }
         traits
+        goalKeeper
         image
       }
     }`,
