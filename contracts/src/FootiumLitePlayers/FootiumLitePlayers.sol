@@ -11,8 +11,8 @@ contract FootiumLitePlayers is ERC721, Ownable {
     uint256 constant NUMBERIC_TRAITS_NUM = 7;
     uint256 constant IMAGE_TRAITS_NUM = 7;
     uint256 constant MAX_STAT = 11;
-    uint256 constant POSE_NUM = 5;
-    uint256 constant HAIR_NUM = 10;
+
+    uint256[IMAGE_TRAITS_NUM] maxImageTraits = [5, 10, 8, 10, 9, 3, 10];
 
     struct Player {
         bool keeper;
@@ -54,9 +54,9 @@ contract FootiumLitePlayers is ERC721, Ownable {
             playersStats[tokenId].numericTraits[i] = uint256(keccak256(abi.encode(tokenId, i))) % MAX_STAT;
         }
 
-        playersStats[tokenId].imageTraits[0] = uint256(keccak256(abi.encode(tokenId, 0))) % POSE_NUM;
-        playersStats[tokenId].imageTraits[1] = uint256(keccak256(abi.encode(tokenId, 1))) % HAIR_NUM;
-
+        for (uint256 i; i < IMAGE_TRAITS_NUM; i++) {
+            playersStats[tokenId].imageTraits[i] = uint256(keccak256(abi.encode(tokenId, i))) % maxImageTraits[i];
+        }
         _mint(msg.sender, tokenId);
 
         emit PlayerSigned(tokenId, keeper, playersStats[tokenId].numericTraits);
@@ -72,14 +72,23 @@ contract FootiumLitePlayers is ERC721, Ownable {
         return playersStats[tokenId].numericTraits;
     }
 
+    // Fixme, uncomment code - the original function was too big
     function getPlayerSvg(uint256 tokenId) public view returns (string memory) {
         return
             string(
                 abi.encodePacked(
                     '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 210 297">',
                     svgs.getSvg("pose", playersStats[tokenId].imageTraits[0]),
+                    svgs.getSvg("facial", playersStats[tokenId].imageTraits[4]),
                     svgs.getSvg("hair", playersStats[tokenId].imageTraits[1]),
+                    svgs.getSvg("brow", playersStats[tokenId].imageTraits[2]),
+                    svgs.getSvg("eye", playersStats[tokenId].imageTraits[3]),
+                    svgs.getSvg("mouth", playersStats[tokenId].imageTraits[5]),
+                    svgs.getSvg("nose", playersStats[tokenId].imageTraits[6]),
                     svgs.getSvg("shirt", 0),
+                    svgs.getSvg("shorts", 0),
+                    // svgs.getSvg("socks", 0),
+                    // svgs.getSvg("shoes", 0),
                     "</svg>"
                 )
             );

@@ -4,7 +4,7 @@ import { deployments, ethers } from 'hardhat';
 const { execute } = deployments;
 import fs from 'fs';
 
-const storeSvgs = false;
+const storeSvgs = true;
 
 const hair: string[] = [];
 for (let i = 0; i < 10; i++) {
@@ -67,7 +67,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       await execute('Svgs', { from: deployer, log: true }, 'storeSvg', pose[i], ethers.utils.formatBytes32String("pose"));
     }
 
-    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shirt, ethers.utils.formatBytes32String("shirt"));
 
     for (let i = 0; i < 8; i++) {
       await execute('Svgs', { from: deployer, log: true }, 'storeSvg', brow[i], ethers.utils.formatBytes32String("brow"));
@@ -89,6 +88,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       await execute('Svgs', { from: deployer, log: true }, 'storeSvg', mouth[i], ethers.utils.formatBytes32String("mouth"));
     }
 
+    await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shirt, ethers.utils.formatBytes32String("shirt"));
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shorts, ethers.utils.formatBytes32String("shorts"));
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', shoes, ethers.utils.formatBytes32String("shoes"));
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', socks, ethers.utils.formatBytes32String("socks"));
