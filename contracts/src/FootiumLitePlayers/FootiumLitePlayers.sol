@@ -74,7 +74,7 @@ contract FootiumLitePlayers is ERC721, Ownable {
 
     // Fixme, uncomment code - the original function was too big
     function getPlayerSvg(uint256 tokenId) public view returns (string memory) {
-        return
+        string memory part =
             string(
                 abi.encodePacked(
                     '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 210 297">',
@@ -83,12 +83,18 @@ contract FootiumLitePlayers is ERC721, Ownable {
                     svgs.getSvg("hair", playersStats[tokenId].imageTraits[1]),
                     svgs.getSvg("brow", playersStats[tokenId].imageTraits[2]),
                     svgs.getSvg("eye", playersStats[tokenId].imageTraits[3]),
+                )
+            );
+        return
+            string(
+                abi.encodePacked(
+                    part
                     svgs.getSvg("mouth", playersStats[tokenId].imageTraits[5]),
                     svgs.getSvg("nose", playersStats[tokenId].imageTraits[6]),
                     svgs.getSvg("shirt", 0),
                     svgs.getSvg("shorts", 0),
-                    // svgs.getSvg("socks", 0),
-                    // svgs.getSvg("shoes", 0),
+                    svgs.getSvg("socks", 0),
+                    svgs.getSvg("shoes", 0),
                     "</svg>"
                 )
             );
