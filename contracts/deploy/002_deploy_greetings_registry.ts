@@ -95,7 +95,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   }
 
 
-  const players = await deploy('FootiumLitePlayers', {
+  await deploy('FootiumLitePlayers', {
     from: deployer,
     args: [svgs.address, ["Fraser", "George", "Jordan", "Sam"], ["Benton", "Scott", "Lord", "Jackson"]],
     log: true,
