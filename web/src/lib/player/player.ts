@@ -14,6 +14,7 @@ type Player = {
   owner: { id: string };
   traits: number[];
   image: string;
+  goalKeeper: boolean;
   pending: boolean;
 };
 

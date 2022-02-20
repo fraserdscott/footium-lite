@@ -43,23 +43,39 @@
         <p>
           Owner: {$player.data.owner.id}
         </p>
+        {$player.data.goalKeeper ? 'Goal keeper' : 'Regular player'}
         <table class="border">
           <tr>
             <th>Trait</th>
             <th>Value</th>
           </tr>
-          {$player.data.goalKeeper}
           <tr>
-            <td>Strength</td>
-            <td>{$player.data.traits[0]} / 100</td>
+            <td>Trait 1</td>
+            <td>{$player.data.traits[0]} / 10</td>
           </tr>
           <tr>
-            <td>Perception</td>
-            <td>{$player.data.traits[1]} / 100</td>
+            <td>Trait 2</td>
+            <td>{$player.data.traits[1]} / 10</td>
           </tr>
           <tr>
-            <td>Endurance</td>
-            <td>{$player.data.traits[2]} / 100</td>
+            <td>Trait 3</td>
+            <td>{$player.data.traits[2]} / 10</td>
+          </tr>
+          <tr>
+            <td>Trait 4</td>
+            <td>{$player.data.traits[3]} / 10</td>
+          </tr>
+          <tr>
+            <td>Trait 5</td>
+            <td>{$player.data.traits[4]} / 10</td>
+          </tr>
+          <tr>
+            <td>Trait 6</td>
+            <td>{$player.data.traits[5]} / 10</td>
+          </tr>
+          <tr>
+            <td>Trait 7</td>
+            <td>{$player.data.traits[6]} / 10</td>
           </tr>
         </table>
       </div>

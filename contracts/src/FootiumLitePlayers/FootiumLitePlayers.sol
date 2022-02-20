@@ -8,7 +8,7 @@ import {Svgs} from "../Svgs/Svgs.sol";
 contract FootiumLitePlayers is ERC721 {
     uint256 constant KEEPER_PROBABILITY_DENOMINATOR = 6;
     uint256 constant TRAITS_NUMBER = 7;
-    uint256 constant MAX_STAT = 101;
+    uint256 constant MAX_STAT = 11;
     uint256 constant POSE_NUM = 5;
     uint256 constant HAIR_NUM = 10;
 
@@ -24,7 +24,7 @@ contract FootiumLitePlayers is ERC721 {
     }
 
     function mint(uint256 tokenId) external {
-        bool keeper = (tokenId % 2) == 0;
+        bool keeper = (tokenId % KEEPER_PROBABILITY_DENOMINATOR) == 0;
         goalKeeper[tokenId] = keeper;
 
         for (uint256 i; i < TRAITS_NUMBER; i++) {
