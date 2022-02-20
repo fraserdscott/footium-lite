@@ -29,6 +29,7 @@
     {:else if $player.step === 'LOADING' || !$player.data}
       <div>
         <p>This player has not been minted yet.</p>
+        <p>Cost: 0.01 ETH</p>
         <button
           on:click={() => mintPlayer($page.params.id)}
           class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
