@@ -25,6 +25,7 @@ contract FootiumLitePlayers is ERC721, Ownable {
     }
 
     Svgs svgs;
+    string private baseTokenURI;
     string[] firstNames;
     string[] lastNames;
     mapping(uint256 => Player) playersStats;
@@ -33,15 +34,26 @@ contract FootiumLitePlayers is ERC721, Ownable {
 
     constructor(
         Svgs _svgs,
+        string memory _baseTokenURI,
         string[] memory _firstNames,
         string[] memory _lastNames
     ) ERC721("FootiumLitePlayers", "FLP") {
         svgs = _svgs;
         firstNames = _firstNames;
         lastNames = _lastNames;
+
+        baseTokenURI = _baseTokenURI;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseTokenURI;
     }
 
     /* External */
+
+    function setBaseURI(string calldata uri) external virtual onlyOwner {
+        baseTokenURI = uri;
+    }
 
     function mint(uint256 tokenId) external payable {
         require(msg.value == MINT_PRICE);
