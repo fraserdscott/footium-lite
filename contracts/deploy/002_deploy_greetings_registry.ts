@@ -94,19 +94,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', socks, ethers.utils.formatBytes32String("socks"));
   }
 
-  const linkToken = await deploy('LinkTokenMock', {
-    from: deployer,
-    args: [],
-    log: true,
-    autoMine: true,
-  });
-
-  const vrfCoordinator = await deploy('VRFCoordinatorMock', {
-    from: deployer,
-    args: [linkToken.address],
-    log: true,
-    autoMine: true,
-  });
 
   const players = await deploy('FootiumLitePlayers', {
     from: deployer,
@@ -115,12 +102,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     autoMine: true,
   });
 
-  await deploy('FootiumLiteFriendlies', {
-    from: deployer,
-    args: [vrfCoordinator.address, linkToken.address, players.address],
-    log: true,
-    autoMine: true,
-  });
 };
 
 export default func;

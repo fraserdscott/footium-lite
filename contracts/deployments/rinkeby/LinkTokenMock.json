@@ -1,0 +1,158 @@
+{
+  "address": "0x293a1DBcc5654206fA747e666f46DCe174D3EA7f",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "balanceOf_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getRequestId",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "requestId_",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "transferAndCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xb07d058b05c57a5e6860758dc1cfe931f67bcd8c7d35703b269351f19d70f7b1",
+  "receipt": {
+    "to": null,
+    "from": "0xb19BC46C52A1352A071fe2389503B6FE1ABD50Ff",
+    "contractAddress": "0x293a1DBcc5654206fA747e666f46DCe174D3EA7f",
+    "transactionIndex": 17,
+    "gasUsed": "248090",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe7c78671b1ffe113ae180bf10f64b5ceb86effe275a8c73af91eeb7bb5b64014",
+    "transactionHash": "0xb07d058b05c57a5e6860758dc1cfe931f67bcd8c7d35703b269351f19d70f7b1",
+    "logs": [],
+    "blockNumber": 10199392,
+    "cumulativeGasUsed": "3399932",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "30a021d3d0ef570ce3cdc21f701852b5",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"balanceOf_\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRequestId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId_\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"_data\",\"type\":\"bytes\"}],\"name\":\"transferAndCall\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/LinkTest/LinkTest.sol\":\"LinkTokenMock\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":999999},\"remappings\":[]},\"sources\":{\"src/LinkTest/LinkTest.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.8;\\n\\ncontract LinkTokenMock {\\n    bytes32 keyHash;\\n    uint256 seed;\\n    address requester;\\n    mapping(bytes32 => uint256) nonces;\\n\\n    function transferAndCall(\\n        address _to,\\n        uint256 _value,\\n        bytes calldata _data\\n    ) external returns (bool) {\\n        _to;\\n        _value;\\n        (keyHash, seed) = abi.decode(_data, (bytes32, uint256));\\n        requester = msg.sender;\\n        nonces[keyHash]++;\\n        return true;\\n    }\\n\\n    function balanceOf(address _account)\\n        external\\n        pure\\n        returns (uint256 balanceOf_)\\n    {\\n        _account;\\n        balanceOf_ = 5e18;\\n    }\\n\\n    function getRequestId() external view returns (bytes32 requestId_) {\\n        bytes32 input = keccak256(\\n            abi.encode(keyHash, seed, requester, nonces[keyHash] - 1)\\n        );\\n        requestId_ = keccak256(abi.encodePacked(keyHash, input));\\n    }\\n}\\n\",\"keccak256\":\"0xa39614bc224bd5b9d8bc5f8aa2432f89429e4fac6e4f5ea843dd442df9df5a64\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610389806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063077001b9146100465780634000aea01461006157806370a0823114610084575b600080fd5b61004e61009f565b6040519081526020015b60405180910390f35b61007461006f366004610209565b610178565b6040519015158152602001610058565b61004e610092366004610290565b50674563918244f4000090565b60008054600180546002548385526003602052604085205485949373ffffffffffffffffffffffffffffffffffffffff909216916100dc916102e1565b60408051602081019590955284019290925273ffffffffffffffffffffffffffffffffffffffff166060830152608082015260a001604080517fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe081840301815282825280516020918201206000549184019190915290820181905291506060016040516020818303038152906040528051906020012091505090565b6000610186828401846102f8565b6001556000818155600280547fffffffffffffffffffffffff000000000000000000000000000000000000000016331790559081526003602052604081208054916101d08361031a565b9091555060019695505050505050565b803573ffffffffffffffffffffffffffffffffffffffff8116811461020457600080fd5b919050565b6000806000806060858703121561021f57600080fd5b610228856101e0565b935060208501359250604085013567ffffffffffffffff8082111561024c57600080fd5b818701915087601f83011261026057600080fd5b81358181111561026f57600080fd5b88602082850101111561028157600080fd5b95989497505060200194505050565b6000602082840312156102a257600080fd5b6102ab826101e0565b9392505050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b6000828210156102f3576102f36102b2565b500390565b6000806040838503121561030b57600080fd5b50508035926020909101359150565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82141561034c5761034c6102b2565b506001019056fea264697066735822122081d666b9662e777319a6d3782f5a5129244c7f0daf2c53706194550df028993564736f6c63430008090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063077001b9146100465780634000aea01461006157806370a0823114610084575b600080fd5b61004e61009f565b6040519081526020015b60405180910390f35b61007461006f366004610209565b610178565b6040519015158152602001610058565b61004e610092366004610290565b50674563918244f4000090565b60008054600180546002548385526003602052604085205485949373ffffffffffffffffffffffffffffffffffffffff909216916100dc916102e1565b60408051602081019590955284019290925273ffffffffffffffffffffffffffffffffffffffff166060830152608082015260a001604080517fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe081840301815282825280516020918201206000549184019190915290820181905291506060016040516020818303038152906040528051906020012091505090565b6000610186828401846102f8565b6001556000818155600280547fffffffffffffffffffffffff000000000000000000000000000000000000000016331790559081526003602052604081208054916101d08361031a565b9091555060019695505050505050565b803573ffffffffffffffffffffffffffffffffffffffff8116811461020457600080fd5b919050565b6000806000806060858703121561021f57600080fd5b610228856101e0565b935060208501359250604085013567ffffffffffffffff8082111561024c57600080fd5b818701915087601f83011261026057600080fd5b81358181111561026f57600080fd5b88602082850101111561028157600080fd5b95989497505060200194505050565b6000602082840312156102a257600080fd5b6102ab826101e0565b9392505050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b6000828210156102f3576102f36102b2565b500390565b6000806040838503121561030b57600080fd5b50508035926020909101359150565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82141561034c5761034c6102b2565b506001019056fea264697066735822122081d666b9662e777319a6d3782f5a5129244c7f0daf2c53706194550df028993564736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3,
+        "contract": "src/LinkTest/LinkTest.sol:LinkTokenMock",
+        "label": "keyHash",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bytes32"
+      },
+      {
+        "astId": 5,
+        "contract": "src/LinkTest/LinkTest.sol:LinkTokenMock",
+        "label": "seed",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 7,
+        "contract": "src/LinkTest/LinkTest.sol:LinkTokenMock",
+        "label": "requester",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      },
+      {
+        "astId": 11,
+        "contract": "src/LinkTest/LinkTest.sol:LinkTokenMock",
+        "label": "nonces",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_bytes32,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_bytes32,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

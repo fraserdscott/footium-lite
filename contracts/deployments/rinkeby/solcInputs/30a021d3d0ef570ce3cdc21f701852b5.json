@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "src/LinkTest/LinkTest.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.8;\n\ncontract LinkTokenMock {\n    bytes32 keyHash;\n    uint256 seed;\n    address requester;\n    mapping(bytes32 => uint256) nonces;\n\n    function transferAndCall(\n        address _to,\n        uint256 _value,\n        bytes calldata _data\n    ) external returns (bool) {\n        _to;\n        _value;\n        (keyHash, seed) = abi.decode(_data, (bytes32, uint256));\n        requester = msg.sender;\n        nonces[keyHash]++;\n        return true;\n    }\n\n    function balanceOf(address _account)\n        external\n        pure\n        returns (uint256 balanceOf_)\n    {\n        _account;\n        balanceOf_ = 5e18;\n    }\n\n    function getRequestId() external view returns (bytes32 requestId_) {\n        bytes32 input = keccak256(\n            abi.encode(keyHash, seed, requester, nonces[keyHash] - 1)\n        );\n        requestId_ = keccak256(abi.encodePacked(keyHash, input));\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 999999
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
