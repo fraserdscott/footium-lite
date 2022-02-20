@@ -12,7 +12,7 @@ contract FootiumLitePlayers is ERC721, Ownable {
     uint256 constant IMAGE_TRAITS_NUM = 7;
     uint256 constant MAX_STAT = 11;
 
-    uint256[IMAGE_TRAITS_NUM] maxImageTraits = [5, 10, 8, 10, 9, 3, 10];
+    uint256[IMAGE_TRAITS_NUM] maxImageTraits = [3, 10, 8, 10, 9, 10, 3];
 
     struct Player {
         bool keeper;
