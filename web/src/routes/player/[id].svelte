@@ -3,11 +3,14 @@
   import {flow} from '$lib/blockchain/wallet';
   import WalletAccess from '$lib/blockchain/WalletAccess.svelte';
   import {page} from '$app/stores';
+  import {BigNumber} from '@ethersproject/bignumber';
 
   const player = getPlayer($page.params.id);
 
   async function mintPlayer(tokenId: string) {
-    await flow.execute((contracts) => contracts.FootiumLitePlayers.mint(tokenId));
+    await flow.execute((contracts) =>
+      contracts.FootiumLitePlayers.mint(tokenId, {value: BigNumber.from('10000000000000000')})
+    );
   }
 </script>
 
@@ -26,6 +29,7 @@
     {:else if $player.step === 'LOADING' || !$player.data}
       <div>
         <p>This player has not been minted yet.</p>
+        <p>Cost: 0.01 ETH</p>
         <button
           on:click={() => mintPlayer($page.params.id)}
           class="flex-shrink-0 bg-pink-600 hover:bg-pink-700 border-pink-600 hover:border-pink-700 text-sm border-4
@@ -37,44 +41,53 @@
       </div>
     {:else}
       <div class="px-2">
+        <h1>{$player.data.firstName} {$player.data.lastName}</h1>
         <svg width="150">
           {@html $player.data.image}
         </svg>
         <p>
           Owner: {$player.data.owner.id}
         </p>
-        {$player.data.goalKeeper ? 'Goal keeper' : 'Regular player'}
+        {$player.data.goalKeeper ? 'Goalkeeper' : 'Regular player'}
+        <h2>General traits</h2>
         <table class="border">
           <tr>
             <th>Trait</th>
             <th>Value</th>
           </tr>
           <tr>
-            <td>Trait 1</td>
+            <td>Composure</td>
             <td>{$player.data.traits[0]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 2</td>
+            <td>Height</td>
             <td>{$player.data.traits[1]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 3</td>
+            <td>Footedness</td>
             <td>{$player.data.traits[2]} / 10</td>
           </tr>
+        </table>
+        <h2>Specific traits</h2>
+        <table class="border">
           <tr>
-            <td>Trait 4</td>
+            <th>Trait</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>{$player.data.goalKeeper ? 'Reflexes' : 'Power'}</td>
             <td>{$player.data.traits[3]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 5</td>
+            <td>{$player.data.goalKeeper ? 'Handling' : 'Accuracy'}</td>
             <td>{$player.data.traits[4]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 6</td>
+            <td>{$player.data.goalKeeper ? 'Intimidation' : 'Technique'}</td>
             <td>{$player.data.traits[5]} / 10</td>
           </tr>
           <tr>
-            <td>Trait 7</td>
+            <td>{$player.data.goalKeeper ? 'Jumping' : 'Speed'}</td>
             <td>{$player.data.traits[6]} / 10</td>
           </tr>
         </table>

@@ -4,7 +4,7 @@ import { deployments, ethers } from 'hardhat';
 const { execute } = deployments;
 import fs from 'fs';
 
-const storeSvgs = true;
+const storeSvgs = false;
 
 const hair: string[] = [];
 for (let i = 0; i < 10; i++) {
@@ -94,33 +94,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     await execute('Svgs', { from: deployer, log: true }, 'storeSvg', socks, ethers.utils.formatBytes32String("socks"));
   }
 
-  const linkToken = await deploy('LinkTokenMock', {
+
+  await deploy('FootiumLitePlayers', {
     from: deployer,
-    args: [],
+    args: [svgs.address, "null", ["Fraser", "George", "Jordan", "Sam"], ["Benton", "Scott", "Lord", "Jackson"]],
     log: true,
     autoMine: true,
   });
 
-  const vrfCoordinator = await deploy('VRFCoordinatorMock', {
-    from: deployer,
-    args: [linkToken.address],
-    log: true,
-    autoMine: true,
-  });
-
-  const players = await deploy('FootiumLitePlayers', {
-    from: deployer,
-    args: [svgs.address, ["Fraser", "George", "Jordan", "Sam"], ["Benton", "Scott", "Lord", "Jackson"]],
-    log: true,
-    autoMine: true,
-  });
-
-  await deploy('FootiumLiteFriendlies', {
-    from: deployer,
-    args: [vrfCoordinator.address, linkToken.address, players.address],
-    log: true,
-    autoMine: true,
-  });
 };
 
 export default func;
