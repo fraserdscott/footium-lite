@@ -1,18 +1,16 @@
 {
   ".svelte-kit/build/runtime/internal/start.js": {
-    "file": "start-6aacd004.js",
+    "file": "start-32ab77aa.js",
     "src": ".svelte-kit/build/runtime/internal/start.js",
     "isEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
+      "_vendor-590ce743.js",
       "_paths-28a87002.js"
     ],
     "dynamicImports": [
       "src/routes/__layout.svelte",
       ".svelte-kit/build/components/error.svelte",
       "src/routes/index.svelte",
-      "src/routes/createMatch.svelte",
-      "src/routes/matches.svelte",
       "src/routes/players.svelte",
       "src/routes/player/[id].svelte",
       "src/routes/match/[id].svelte",
@@ -23,204 +21,150 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-0473ec33.js",
+    "file": "pages/__layout.svelte-a067ec5f.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
+      "_vendor-590ce743.js",
       "_paths-28a87002.js",
-      "_config-189b06cb.js",
-      "_stores-5839b29b.js",
-      "_notifications-f6b9b417.js"
+      "_config-44f549ec.js",
+      "_stores-e92e2c9f.js",
+      "_notifications-c0e68bde.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-677051aa.css"
+      "assets/pages/__layout.svelte-f0e7fcee.css"
     ]
   },
   ".svelte-kit/build/components/error.svelte": {
-    "file": "error.svelte-f297c77d.js",
+    "file": "error.svelte-4d17c30f.js",
     "src": ".svelte-kit/build/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js"
+      "_vendor-590ce743.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-1373ef25.js",
+    "file": "pages/index.svelte-fdb2d17f.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
-      "_NavButton-5da891c2.js",
-      "_config-189b06cb.js"
-    ]
-  },
-  "src/routes/createMatch.svelte": {
-    "file": "pages/createMatch.svelte-d2d1a218.js",
-    "src": "src/routes/createMatch.svelte",
-    "isEntry": true,
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-c564b019.js",
-      "_WalletAccess-5297724b.js",
-      "_config-189b06cb.js",
-      "_NavButton-5da891c2.js",
-      "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
-    ],
-    "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
-    ]
-  },
-  "src/routes/matches.svelte": {
-    "file": "pages/matches.svelte-33318b33.js",
-    "src": "src/routes/matches.svelte",
-    "isEntry": true,
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-c564b019.js",
-      "_WalletAccess-5297724b.js",
-      "_NavButton-5da891c2.js",
-      "_index-3fc4b8e4.js",
-      "_graphql-126ef292.js",
-      "_config-189b06cb.js",
-      "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
-    ],
-    "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
+      "_vendor-590ce743.js",
+      "_NavButton-604f466e.js",
+      "_config-44f549ec.js"
     ]
   },
   "src/routes/players.svelte": {
-    "file": "pages/players.svelte-a0f866b6.js",
+    "file": "pages/players.svelte-a06d43b6.js",
     "src": "src/routes/players.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
-      "_WalletAccess-5297724b.js",
-      "_NavButton-5da891c2.js",
-      "_index-3fc4b8e4.js",
-      "_graphql-126ef292.js",
-      "_config-189b06cb.js",
+      "_vendor-590ce743.js",
+      "_graphql-1e73ec8c.js",
+      "_NavButton-604f466e.js",
+      "_config-44f549ec.js",
       "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
+      "_notifications-c0e68bde.js"
     ],
     "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
+      "assets/pages/player/_id_.svelte-c38ab1fa.css"
     ]
   },
   "src/routes/player/[id].svelte": {
-    "file": "pages/player/_id_.svelte-579dd4c9.js",
+    "file": "pages/player/_id_.svelte-88baad84.js",
     "src": "src/routes/player/[id].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
-      "_graphql-126ef292.js",
-      "_WalletAccess-5297724b.js",
-      "_stores-5839b29b.js",
-      "_config-189b06cb.js",
-      "_NavButton-5da891c2.js",
+      "_vendor-590ce743.js",
+      "_graphql-1e73ec8c.js",
+      "_stores-e92e2c9f.js",
+      "_config-44f549ec.js",
+      "_NavButton-604f466e.js",
       "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
+      "_notifications-c0e68bde.js"
     ],
     "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
+      "assets/pages/player/_id_.svelte-c38ab1fa.css"
     ]
   },
   "src/routes/match/[id].svelte": {
-    "file": "pages/match/_id_.svelte-118c23c2.js",
+    "file": "pages/match/_id_.svelte-921e6ee7.js",
     "src": "src/routes/match/[id].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
-      "_graphql-126ef292.js",
-      "_WalletAccess-5297724b.js",
-      "_stores-5839b29b.js",
-      "_config-189b06cb.js",
-      "_NavButton-5da891c2.js",
+      "_vendor-590ce743.js",
+      "_graphql-1e73ec8c.js",
+      "_stores-e92e2c9f.js",
+      "_config-44f549ec.js",
+      "_NavButton-604f466e.js",
       "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
+      "_notifications-c0e68bde.js"
     ],
     "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
+      "assets/pages/player/_id_.svelte-c38ab1fa.css"
     ]
   },
   "src/routes/owner/[id].svelte": {
-    "file": "pages/owner/_id_.svelte-212215f8.js",
+    "file": "pages/owner/_id_.svelte-f4cd7f91.js",
     "src": "src/routes/owner/[id].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c564b019.js",
-      "_graphql-126ef292.js",
-      "_WalletAccess-5297724b.js",
-      "_stores-5839b29b.js",
-      "_config-189b06cb.js",
-      "_NavButton-5da891c2.js",
+      "_vendor-590ce743.js",
+      "_graphql-1e73ec8c.js",
+      "_stores-e92e2c9f.js",
+      "_config-44f549ec.js",
+      "_NavButton-604f466e.js",
       "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
+      "_notifications-c0e68bde.js"
     ],
     "css": [
-      "assets/pages/owner/_id_.svelte-0ee7a395.css"
+      "assets/pages/player/_id_.svelte-c38ab1fa.css"
     ]
   },
-  "_vendor-c564b019.js": {
-    "file": "chunks/vendor-c564b019.js"
+  "_vendor-590ce743.js": {
+    "file": "chunks/vendor-590ce743.js"
   },
   "_paths-28a87002.js": {
     "file": "chunks/paths-28a87002.js"
   },
-  "_config-189b06cb.js": {
-    "file": "chunks/config-189b06cb.js",
+  "_config-44f549ec.js": {
+    "file": "chunks/config-44f549ec.js",
     "imports": [
-      "_vendor-c564b019.js"
+      "_vendor-590ce743.js"
     ]
   },
-  "_stores-5839b29b.js": {
-    "file": "chunks/stores-5839b29b.js",
+  "_stores-e92e2c9f.js": {
+    "file": "chunks/stores-e92e2c9f.js",
     "imports": [
-      "_vendor-c564b019.js"
+      "_vendor-590ce743.js"
     ]
   },
-  "_notifications-f6b9b417.js": {
-    "file": "chunks/notifications-f6b9b417.js",
+  "_notifications-c0e68bde.js": {
+    "file": "chunks/notifications-c0e68bde.js",
     "imports": [
-      "_vendor-c564b019.js"
+      "_vendor-590ce743.js"
     ]
   },
-  "_NavButton-5da891c2.js": {
-    "file": "chunks/NavButton-5da891c2.js",
+  "_NavButton-604f466e.js": {
+    "file": "chunks/NavButton-604f466e.js",
     "imports": [
-      "_vendor-c564b019.js"
+      "_vendor-590ce743.js"
     ]
   },
-  "_WalletAccess-5297724b.js": {
-    "file": "chunks/WalletAccess-5297724b.js",
+  "_graphql-1e73ec8c.js": {
+    "file": "chunks/graphql-1e73ec8c.js",
     "imports": [
-      "_vendor-c564b019.js",
-      "_config-189b06cb.js",
-      "_NavButton-5da891c2.js",
+      "_vendor-590ce743.js",
+      "_config-44f549ec.js",
+      "_NavButton-604f466e.js",
       "_paths-28a87002.js",
-      "_notifications-f6b9b417.js"
-    ]
-  },
-  "_index-3fc4b8e4.js": {
-    "file": "chunks/index-3fc4b8e4.js",
-    "imports": [
-      "_vendor-c564b019.js"
-    ]
-  },
-  "_graphql-126ef292.js": {
-    "file": "chunks/graphql-126ef292.js",
-    "imports": [
-      "_vendor-c564b019.js",
-      "_config-189b06cb.js"
+      "_notifications-c0e68bde.js"
     ]
   }
 }

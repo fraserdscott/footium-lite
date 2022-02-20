@@ -1,29 +1,25 @@
-const timestamp = 1645337822321;
+const timestamp = 1645337994749;
 const build = [
-  "/_app/start-6aacd004.js",
+  "/_app/start-32ab77aa.js",
   "/_app/assets/start-f6bd5930.css",
-  "/_app/pages/__layout.svelte-0473ec33.js",
-  "/_app/assets/pages/__layout.svelte-677051aa.css",
-  "/_app/error.svelte-f297c77d.js",
-  "/_app/pages/index.svelte-1373ef25.js",
-  "/_app/pages/createMatch.svelte-d2d1a218.js",
-  "/_app/assets/pages/owner/_id_.svelte-0ee7a395.css",
-  "/_app/pages/matches.svelte-33318b33.js",
-  "/_app/pages/players.svelte-a0f866b6.js",
-  "/_app/pages/player/_id_.svelte-579dd4c9.js",
-  "/_app/pages/match/_id_.svelte-118c23c2.js",
-  "/_app/pages/owner/_id_.svelte-212215f8.js",
-  "/_app/chunks/vendor-c564b019.js",
+  "/_app/pages/__layout.svelte-a067ec5f.js",
+  "/_app/assets/pages/__layout.svelte-f0e7fcee.css",
+  "/_app/error.svelte-4d17c30f.js",
+  "/_app/pages/index.svelte-fdb2d17f.js",
+  "/_app/pages/players.svelte-a06d43b6.js",
+  "/_app/assets/pages/player/_id_.svelte-c38ab1fa.css",
+  "/_app/pages/player/_id_.svelte-88baad84.js",
+  "/_app/pages/match/_id_.svelte-921e6ee7.js",
+  "/_app/pages/owner/_id_.svelte-f4cd7f91.js",
+  "/_app/chunks/vendor-590ce743.js",
   "/_app/chunks/paths-28a87002.js",
-  "/_app/chunks/config-189b06cb.js",
-  "/_app/chunks/stores-5839b29b.js",
-  "/_app/chunks/notifications-f6b9b417.js",
-  "/_app/chunks/NavButton-5da891c2.js",
-  "/_app/chunks/WalletAccess-5297724b.js",
-  "/_app/chunks/index-3fc4b8e4.js",
-  "/_app/chunks/graphql-126ef292.js"
+  "/_app/chunks/config-44f549ec.js",
+  "/_app/chunks/stores-e92e2c9f.js",
+  "/_app/chunks/notifications-c0e68bde.js",
+  "/_app/chunks/NavButton-604f466e.js",
+  "/_app/chunks/graphql-1e73ec8c.js"
 ];
-const URLS_TO_PRE_CACHE = build.concat(["/createMatch/","/","/matches/","/owner/0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199/","/player/0/","/player/1/","/player/10/","/player/11/","/player/12/","/player/13/","/player/14/","/player/15/","/player/16/","/player/17/","/player/18/","/player/19/","/player/2/","/player/20/","/player/21/","/player/22/","/player/23/","/player/24/","/player/25/","/player/26/","/player/27/","/player/28/","/player/29/","/player/3/","/player/30/","/player/31/","/player/32/","/player/33/","/player/34/","/player/35/","/player/36/","/player/37/","/player/38/","/player/39/","/player/4/","/player/40/","/player/41/","/player/42/","/player/43/","/player/44/","/player/45/","/player/46/","/player/47/","/player/48/","/player/49/","/player/5/","/player/6/","/player/7/","/player/8/","/player/9/","/players/"]);
+const URLS_TO_PRE_CACHE = build.concat(["/","/owner/0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199/","/player/0/","/player/1/","/player/10/","/player/11/","/player/12/","/player/13/","/player/14/","/player/15/","/player/16/","/player/17/","/player/18/","/player/19/","/player/2/","/player/20/","/player/21/","/player/22/","/player/23/","/player/24/","/player/25/","/player/26/","/player/27/","/player/28/","/player/29/","/player/3/","/player/30/","/player/31/","/player/32/","/player/33/","/player/34/","/player/35/","/player/36/","/player/37/","/player/38/","/player/39/","/player/4/","/player/40/","/player/41/","/player/42/","/player/43/","/player/44/","/player/45/","/player/46/","/player/47/","/player/48/","/player/49/","/player/5/","/player/6/","/player/7/","/player/8/","/player/9/","/players/"]);
 const CACHE_NAME = "cache-name" + timestamp;
 let _logEnabled = true;
 function log(...args) {
