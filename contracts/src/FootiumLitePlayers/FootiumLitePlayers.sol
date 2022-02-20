@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 import {Svgs} from "../Svgs/Svgs.sol";
 
-contract FootiumLitePlayers is ERC721 {
+contract FootiumLitePlayers is ERC721, Ownable {
     uint256 constant KEEPER_PROBABILITY_DENOMINATOR = 6;
     uint256 constant TRAITS_NUMBER = 7;
     uint256 constant MAX_STAT = 11;
@@ -23,6 +24,8 @@ contract FootiumLitePlayers is ERC721 {
         svgs = _svgs;
     }
 
+    /* External */
+
     function mint(uint256 tokenId) external {
         bool keeper = (tokenId % KEEPER_PROBABILITY_DENOMINATOR) == 0;
         goalKeeper[tokenId] = keeper;
@@ -38,6 +41,12 @@ contract FootiumLitePlayers is ERC721 {
 
         emit PlayerSigned(tokenId, keeper, traits[tokenId]);
     }
+
+    function updateTraits(uint256 tokenId, uint256[TRAITS_NUMBER] calldata newTraits) external onlyOwner {
+        traits[tokenId] = newTraits;
+    }
+
+    /* View */
 
     function getTraits(uint256 tokenId) public view returns (uint256[TRAITS_NUMBER] memory) {
         return traits[tokenId];
