@@ -5,3 +5,5 @@ node_modules
 footium-lite.code-workspace
 
 .DS_Store
+
+/web/release/*
