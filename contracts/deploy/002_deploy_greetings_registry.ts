@@ -24,7 +24,7 @@ for (let i = 0; i < 8; i++) {
 }
 
 const eye: string[] = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 9; i++) {
   eye.push(fs.readFileSync(`svgs/eye/eyes${i}.svg`, 'utf8'));
 }
 
@@ -72,7 +72,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       await execute('Svgs', { from: deployer, log: true }, 'storeSvg', brow[i], ethers.utils.formatBytes32String("brow"));
     }
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 9; i++) {
       await execute('Svgs', { from: deployer, log: true }, 'storeSvg', eye[i], ethers.utils.formatBytes32String("eye"));
     }
 
