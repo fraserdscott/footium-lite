@@ -1,6 +1,5 @@
 type Owner @entity {
   id: ID!
-  formation: [Int!]!
 }
 
 type Player @entity {
@@ -8,6 +7,8 @@ type Player @entity {
   owner: Owner!
   traits: [Int!]
   image: String!
+  firstName: String!
+  lastName: String!
   goalKeeper: Boolean!
 }
 

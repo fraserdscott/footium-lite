@@ -8,7 +8,6 @@ export function getOrCreateOwner(
   let owner = Owner.load(id);
   if (!owner) {
     owner = new Owner(id);
-    owner.formation = [0, 0, 0, 0, 0];
   }
 
   return owner;
@@ -40,6 +39,8 @@ export function handleSigned(event: PlayerSigned): void {
 
   player.traits = event.params.traits.map<i32>(t => t.toI32());
   player.goalKeeper = event.params.goalKeeper;
+  player.firstName = event.params.firstName;
+  player.lastName = event.params.lastName;
 
   let contract = FootiumLitePlayersContract.bind(event.address);
   player.image = contract.getPlayerSvg(event.params.tokenId);

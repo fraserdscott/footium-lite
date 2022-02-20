@@ -30,7 +30,13 @@ contract FootiumLitePlayers is ERC721, Ownable {
     string[] lastNames;
     mapping(uint256 => Player) playersStats;
 
-    event PlayerSigned(uint256 tokenId, bool goalKeeper, uint256[NUMBERIC_TRAITS_NUM] traits);
+    event PlayerSigned(
+        uint256 tokenId,
+        string firstName,
+        string lastName,
+        bool goalKeeper,
+        uint256[NUMBERIC_TRAITS_NUM] traits
+    );
 
     constructor(
         Svgs _svgs,
@@ -58,10 +64,10 @@ contract FootiumLitePlayers is ERC721, Ownable {
     function mint(uint256 tokenId) external payable {
         require(msg.value == MINT_PRICE);
 
-        playersStats[tokenId].firstName = firstNames[
-            uint256(keccak256(abi.encode(tokenId, "first"))) % firstNames.length
-        ];
-        playersStats[tokenId].lastName = lastNames[uint256(keccak256(abi.encode(tokenId, "last"))) % lastNames.length];
+        string memory firstName = firstNames[uint256(keccak256(abi.encode(tokenId, "first"))) % firstNames.length];
+        string memory lastName = lastNames[uint256(keccak256(abi.encode(tokenId, "last"))) % lastNames.length];
+        playersStats[tokenId].firstName = firstName;
+        playersStats[tokenId].lastName = lastName;
 
         bool keeper = (tokenId % KEEPER_PROBABILITY_DENOMINATOR) == 0;
         playersStats[tokenId].keeper = keeper;
@@ -75,7 +81,7 @@ contract FootiumLitePlayers is ERC721, Ownable {
         }
         _mint(msg.sender, tokenId);
 
-        emit PlayerSigned(tokenId, keeper, playersStats[tokenId].numericTraits);
+        emit PlayerSigned(tokenId, firstName, lastName, keeper, playersStats[tokenId].numericTraits);
     }
 
     function updateNumericTraits(uint256 tokenId, uint256[NUMBERIC_TRAITS_NUM] calldata newTraits) external onlyOwner {

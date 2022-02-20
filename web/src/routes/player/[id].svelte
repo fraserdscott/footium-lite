@@ -41,6 +41,7 @@
       </div>
     {:else}
       <div class="px-2">
+        <h1>{$player.data.firstName} {$player.data.lastName}</h1>
         <svg width="150">
           {@html $player.data.image}
         </svg>

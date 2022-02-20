@@ -14,6 +14,8 @@ type Player = {
   owner: { id: string };
   traits: number[];
   image: string;
+  firstName: string;
+  lastName: string;
   goalKeeper: boolean;
   pending: boolean;
 };
@@ -62,6 +64,8 @@ class PlayerStore implements QueryStore<Player> {
         traits
         goalKeeper
         image
+        firstName
+        lastName
       }
     }`,
       chainTempo,
